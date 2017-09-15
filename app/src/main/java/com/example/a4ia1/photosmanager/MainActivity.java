@@ -25,15 +25,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // get folder path
+        // consts
+        String[] baseSubFolders = new String[]{ "places", "people", "things" };
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         String mainFolderName = getString(R.string.main_folder_name);
         File mainDir = new File(pictureFolder, mainFolderName);
 
-        // check if main folder exists
+        // check if main folder and base sub folders exists,
+        // if not create
+        // START
         if (!mainDir.exists()) {
             mainDir.mkdir();
         }
+        for(String folderName: baseSubFolders) {
+            File tmpFolder = new File(mainDir, folderName);
+            if(!tmpFolder.exists()) {
+                tmpFolder.mkdir();
+            }
+        }
+        // END
 
         // set click event for AlbumsButton
         albumsButton = (LinearLayout) findViewById(R.id.albums_button);
