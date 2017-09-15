@@ -28,7 +28,7 @@ public class AlbumsActivity extends AppCompatActivity {
 
         // get listview
         listView = (ListView) findViewById(R.id.list_view);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 AlbumsActivity.this,
                 R.layout.row_layout,
                 R.id.row_layout_text,

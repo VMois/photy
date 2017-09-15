@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
@@ -17,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
     private LinearLayout albumsButton;
     private LinearLayout cameraButton;
-    private ImageButton  leftArrowButton;
-    private ImageButton  rightArrowButton;
+    private Button leftArrowButton;
+    private Button  rightArrowButton;
     private LinearLayout collageButton;
     private LinearLayout networkButton;
     private List<String> foldersList;
@@ -61,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
         // set click event for AlbumsButton
         albumsButton = (LinearLayout) findViewById(R.id.albums_button);
-        leftArrowButton = (ImageButton) findViewById(R.id.left_arrow);
-        rightArrowButton = (ImageButton) findViewById(R.id.right_arrow);
+        leftArrowButton = (Button) findViewById(R.id.left_arrow);
+        rightArrowButton = (Button) findViewById(R.id.right_arrow);
         cameraButton = (LinearLayout) findViewById(R.id.camera_button);
         collageButton = (LinearLayout) findViewById(R.id.collage_button);
         networkButton = (LinearLayout) findViewById(R.id.network_button);
