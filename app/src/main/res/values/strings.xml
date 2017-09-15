@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PhotosManager</string>
+    <string name="camera_label">Camera</string>
+    <string name="albums_label">Albums</string>
+    <string name="collage_label">Collage</string>
+    <string name="network_label">See online</string>
+    <string name="main_folder_name">Vladyslav Moisieienkov</string>
+</resources>
