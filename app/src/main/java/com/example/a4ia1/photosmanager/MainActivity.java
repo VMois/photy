@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            // get list off all folders in main folder
+            // get list of all folders in main folder
             for(File file: mainDir.listFiles()) {
                 if(file.isDirectory()) {
                     foldersList.add(file.getName());
