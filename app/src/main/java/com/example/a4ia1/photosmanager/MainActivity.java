@@ -24,17 +24,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i("MainActivity Create", "Start main Activity");
 
-        // test if folder exist
-        Log.i("MainActivity Create", "Test main folder");
+        // get folder path
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        Log.i("MainActivity Create", "Path: " + pictureFolder.getAbsolutePath());
         String mainFolderName = getString(R.string.main_folder_name);
         File mainDir = new File(pictureFolder, mainFolderName);
 
+        // check if main folder exists
         if (!mainDir.exists()) {
-            Log.i("MainActivity Create", "Folder doesn't exist, create");
             mainDir.mkdir();
         }
 
