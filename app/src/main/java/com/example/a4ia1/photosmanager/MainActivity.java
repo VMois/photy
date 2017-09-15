@@ -10,6 +10,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton  rightArrowButton;
     private LinearLayout collageButton;
     private LinearLayout networkButton;
+    private List<String> foldersList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,17 +33,28 @@ public class MainActivity extends AppCompatActivity {
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         String mainFolderName = getString(R.string.main_folder_name);
         File mainDir = new File(pictureFolder, mainFolderName);
+        foldersList = new ArrayList<>();
 
-        // check if main folder and base sub folders exists,
-        // if not create
+        // folders and files process
         // START
+
         if (!mainDir.exists()) {
             mainDir.mkdir();
         }
-        for(String folderName: baseSubFolders) {
-            File tmpFolder = new File(mainDir, folderName);
-            if(!tmpFolder.exists()) {
-                tmpFolder.mkdir();
+
+        if(mainDir.isDirectory()) {
+            for (String folderName : baseSubFolders) {
+                File tmpFolder = new File(mainDir, folderName);
+                if (!tmpFolder.exists()) {
+                    tmpFolder.mkdir();
+                }
+            }
+
+            // get list off all folders in main folder
+            for(File file: mainDir.listFiles()) {
+                if(file.isDirectory()) {
+                    foldersList.add(file.getName());
+                }
             }
         }
         // END
@@ -64,8 +78,10 @@ public class MainActivity extends AppCompatActivity {
 
     // event function for AlbumsButton
     private void onAlbumsButtonClick(View view) {
-        Log.i("AlbumsButton Click", "Start Albums Activity");
         Intent intent = new Intent(MainActivity.this, AlbumsActivity.class);
+        Bundle arrayBundle = new Bundle();
+        arrayBundle.putStringArray("folders", foldersList.toArray(new String[0]));
+        intent.putExtras(arrayBundle);
         startActivity(intent);
     }
 }
