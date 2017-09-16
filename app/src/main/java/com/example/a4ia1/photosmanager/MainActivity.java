@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import java.io.File;
@@ -16,10 +14,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private LinearLayout albumsButton;
-    private LinearLayout cameraButton;
-    private Button leftArrowButton;
-    private Button  rightArrowButton;
+    private LinearLayout  albumsButton;
+    private LinearLayout  cameraButton;
+    private Button     leftArrowButton;
+    private Button    rightArrowButton;
     private LinearLayout collageButton;
     private LinearLayout networkButton;
     private List<String> foldersList;
@@ -36,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
         File mainDir = new File(pictureFolder, mainFolderName);
         foldersList = new ArrayList<>();
 
-        // folders and files process
+        // check if main and base sub folders exist
+        // if not create them
         // START
-
         if (!mainDir.exists()) {
             mainDir.mkdir();
         }
@@ -48,13 +46,6 @@ public class MainActivity extends AppCompatActivity {
                 File tmpFolder = new File(mainDir, folderName);
                 if (!tmpFolder.exists()) {
                     tmpFolder.mkdir();
-                }
-            }
-
-            // get list of all folders in main folder
-            for(File file: mainDir.listFiles()) {
-                if(file.isDirectory()) {
-                    foldersList.add(file.getName());
                 }
             }
         }
