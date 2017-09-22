@@ -5,4 +5,9 @@
     <string name="collage_label">Collage</string>
     <string name="network_label">See online</string>
     <string name="main_folder_name">VladyslavMoisieienkov/</string>
+    <string name="add_folder_title">Add new folder</string>
+    <string name="alert_folder_exists">Folder already exists!</string>
+    <string name="alert_folder_created">Folder is created</string>
+    <string name="alert_deleted_folder">Folder is deleted</string>
+    <string name="alert_deleted_folder_not_exist">Folder doesnt exist!</string>
 </resources>

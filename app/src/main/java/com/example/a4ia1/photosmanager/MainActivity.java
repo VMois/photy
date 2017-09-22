@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
     private void onAlbumsButtonClick(View view) {
         Intent intent = new Intent(MainActivity.this, AlbumsActivity.class);
         Bundle arrayBundle = new Bundle();
-        arrayBundle.putStringArray("folders", foldersList.toArray(new String[0]));
         intent.putExtras(arrayBundle);
         startActivity(intent);
     }
