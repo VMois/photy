@@ -10,4 +10,5 @@
     <string name="alert_folder_created">Folder is created</string>
     <string name="alert_deleted_folder">Folder is deleted</string>
     <string name="alert_deleted_folder_not_exist">Folder doesnt exist!</string>
+    <string name="add_folder_button_label">Add</string>
 </resources>

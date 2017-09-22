@@ -37,8 +37,8 @@ public class AlbumsActivity extends AppCompatActivity {
 
         // const for folder scan
         // foldersList = new ArrayList<>();
-        File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        String mainFolderName = getString(R.string.main_folder_name);
+        final File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        final String mainFolderName = getString(R.string.main_folder_name);
         mainDir = new File(pictureFolder, mainFolderName);
 
         updateListAdapter();
@@ -61,7 +61,8 @@ public class AlbumsActivity extends AppCompatActivity {
 
     private void onAddFolderButtonClick(View view) {
         final AlertDialog.Builder addFolderDialog = new AlertDialog.Builder(AlbumsActivity.this);
-        String addFolderTitle = getString(R.string.add_folder_title);
+        final String addFolderButtonLabel = getString(R.string.add_folder_button_label);
+        final String addFolderTitle = getString(R.string.add_folder_title);
         final String alertFolderExist = getString(R.string.alert_folder_exists);
         final String alertFolderCreated = getString(R.string.alert_folder_created);
         final EditText input = new EditText(this);
@@ -69,7 +70,7 @@ public class AlbumsActivity extends AppCompatActivity {
         addFolderDialog.setTitle(addFolderTitle);
         addFolderDialog.setView(input);
 
-        addFolderDialog.setNeutralButton("Add", new DialogInterface.OnClickListener() {
+        addFolderDialog.setNeutralButton(addFolderButtonLabel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 String newFolderName = input.getText().toString();
                 File tmpFolder = new File(mainDir, newFolderName);
