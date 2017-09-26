@@ -76,6 +76,12 @@ public class AlbumActivity extends AppCompatActivity {
         for (File file: picturesList) {
             Bitmap betterImage = betterImageDecode(file.getAbsolutePath());
             ImageView iv = new ImageView(this);
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onImageClick(v);
+                }
+            });
             iv.setImageBitmap(betterImage);
             iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
             if (leftIsSmaller) {
@@ -117,6 +123,12 @@ public class AlbumActivity extends AppCompatActivity {
         currentFolder.delete();
         Toast.makeText(AlbumActivity.this, alertDeletedFolder, Toast.LENGTH_SHORT).show();
         AlbumActivity.this.finish();
+    }
+
+    private void onImageClick(View view) {
+        // convert to image view to get file path
+        ImageView iv = (ImageView) view;
+        String imagePath = iv.getDrawable().toString();
     }
 
     private Bitmap betterImageDecode(String filePath) {
