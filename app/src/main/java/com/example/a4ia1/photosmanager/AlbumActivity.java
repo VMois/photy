@@ -9,11 +9,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AlbumActivity extends AppCompatActivity {
 
     private File currentFolder;
     private ImageView deleteFolderButton;
+    private List<File> picturesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,12 +25,24 @@ public class AlbumActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         String folderName = bundle.getString("folderName").toString();
+        picturesList = new ArrayList<>();
 
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         String mainFolderName = getString(R.string.main_folder_name);
         File mainDir = new File(pictureFolder, mainFolderName);
         currentFolder = new File(mainDir, "/" + folderName + "/");
         Log.d("Current Folder path", currentFolder.getAbsolutePath());
+
+        if (currentFolder.isDirectory()) {
+            // get all files
+            // IMPORTANT! We don't check if file is image.
+            // For learning purpose we know that all files in this folder is images
+            for(File file: currentFolder.listFiles()) {
+                if(file.isFile()) {
+                    picturesList.add(file);
+                }
+            }
+        }
 
         deleteFolderButton = (ImageView) findViewById(R.id.delete_folder_icon);
 
