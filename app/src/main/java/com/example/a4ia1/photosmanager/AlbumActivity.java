@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -61,8 +62,10 @@ public class AlbumActivity extends AppCompatActivity {
             }
         }
         // initial childLayout set
-        int baseHeight = size.y / 4;
-        lparams = new LinearLayout.LayoutParams(size.x, baseHeight);
+        int baseHeight = size.y / 5;
+        int small = size.x / 3;
+        int big = (size.x / 3) * 2;
+        lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, baseHeight);
         childLayout = new LinearLayout(getApplicationContext());
         childLayout.setOrientation(LinearLayout.HORIZONTAL);
         childLayout.setLayoutParams(lparams);
@@ -76,9 +79,9 @@ public class AlbumActivity extends AppCompatActivity {
             iv.setImageBitmap(betterImage);
             iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
             if (leftIsSmaller) {
-                iv.setLayoutParams(new LinearLayout.LayoutParams(baseHeight, LinearLayout.LayoutParams.MATCH_PARENT, 1));
+                iv.setLayoutParams(new LinearLayout.LayoutParams(small, LinearLayout.LayoutParams.MATCH_PARENT, 1));
             } else {
-                iv.setLayoutParams(new LinearLayout.LayoutParams(baseHeight, LinearLayout.LayoutParams.MATCH_PARENT, 2));
+                iv.setLayoutParams(new LinearLayout.LayoutParams(big, LinearLayout.LayoutParams.MATCH_PARENT, 2));
             }
             leftIsSmaller = !leftIsSmaller;
             childLayout.addView(iv);
