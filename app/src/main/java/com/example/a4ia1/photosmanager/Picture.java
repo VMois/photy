@@ -2,10 +2,12 @@ package com.example.a4ia1.photosmanager;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,9 +18,18 @@ public class Picture extends AppCompatActivity {
 
     private ImageView mainImage;
     private ImageView scaleIconButton;
+    private Bitmap originalBitmap;
     private Bitmap imageBitmap;
+    private int originalWidth;
+    private int originalHeight;
+    private Point size;
+
+    private RelativeLayout.LayoutParams params;
     // 0 - big, 1 - middle, 2 - small;
-    private int scaleTypes = 0;
+    private int scaleType = 1;
+    final private int bigParams = RelativeLayout.LayoutParams.MATCH_PARENT;
+    final private int middleParams = RelativeLayout.LayoutParams.WRAP_CONTENT;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +38,17 @@ public class Picture extends AppCompatActivity {
         // hide top bar
         getSupportActionBar().hide();
 
+        // get display sizes
+        Display display = getWindowManager().getDefaultDisplay();
+        size = new Point();
+        display.getSize(size);
+
         Bundle bundle = getIntent().getExtras();
         String imagePath = bundle.getString("imagePath").toString();
-        imageBitmap = betterImageDecode(imagePath);
+        originalBitmap = betterImageDecode(imagePath);
+        originalWidth = originalBitmap.getWidth();
+        originalHeight = originalBitmap.getHeight();
+        imageBitmap = Bitmap.createScaledBitmap(originalBitmap, size.x, size.y, true);
 
         mainImage = (ImageView) findViewById(R.id.main_image);
         mainImage.setImageBitmap(imageBitmap);
@@ -52,6 +71,28 @@ public class Picture extends AppCompatActivity {
     }
 
     private void onScaleButtonClick(View view) {
-
+        // params = new RelativeLayout.LayoutParams(bigParams, bigParams);
+        switch (scaleType) {
+            case 0:
+                // params = new RelativeLayout.LayoutParams(bigParams, bigParams);
+                imageBitmap = Bitmap.createScaledBitmap(originalBitmap, size.x, size.y, true);
+                break;
+            case 1:
+                imageBitmap = Bitmap.createScaledBitmap(originalBitmap, originalWidth, originalWidth, true);
+                // params = new RelativeLayout.LayoutParams(middleParams, middleParams);
+                break;
+            case 2:
+                // params = new RelativeLayout.LayoutParams(middleParams, middleParams);
+                imageBitmap = Bitmap.createScaledBitmap(originalBitmap, (int)(mainImage.getWidth()*0.5), (int)(mainImage.getHeight()*0.5), true);
+                break;
+            default:
+                break;
+        }
+        // mainImage.setLayoutParams(params);
+        mainImage.setImageBitmap(imageBitmap);
+        scaleType++;
+        if (scaleType > 2) {
+            scaleType = 0;
+        }
     }
 }
