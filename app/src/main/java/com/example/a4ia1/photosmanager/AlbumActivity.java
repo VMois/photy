@@ -90,6 +90,7 @@ public class AlbumActivity extends AppCompatActivity {
             } else {
                 iv.setLayoutParams(new LinearLayout.LayoutParams(big, LinearLayout.LayoutParams.MATCH_PARENT, 2));
             }
+            iv.setId(picturesCount - 1);
             leftIsSmaller = !leftIsSmaller;
             childLayout.addView(iv);
             if (picturesCount % 2 == 0) {
@@ -129,7 +130,7 @@ public class AlbumActivity extends AppCompatActivity {
     private void onImageClick(View view) {
         // convert to image view to get file path
         ImageView iv = (ImageView) view;
-        String imagePath = iv.getDrawable().toString();
+        String imagePath = picturesList.get(iv.getId()).getAbsolutePath();
         Intent intent = new Intent(getApplicationContext(), Picture.class);
         intent.putExtra("imagePath", imagePath);
         startActivity(intent);

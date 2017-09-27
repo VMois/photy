@@ -7,16 +7,6 @@
     android:id="@+id/album_view"
     tools:context="com.example.a4ia1.photosmanager.AlbumActivity">
 
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/delete_icon"
-        android:background="@color/colorPrimaryDark"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/delete_folder_icon"
-        />
-
     <ScrollView
         android:layout_height="match_parent"
         android:layout_width="match_parent"
@@ -29,5 +19,14 @@
             android:orientation="vertical"
             android:id="@+id/images_layout"/>
     </ScrollView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/delete_icon"
+        android:background="@color/colorPrimaryDark"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/delete_folder_icon"
+        />
 
 </RelativeLayout>
