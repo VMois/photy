@@ -76,6 +76,12 @@ public class AlbumActivity extends AppCompatActivity {
             Toast.makeText(AlbumActivity.this, alertDeletedFolderNotExist, Toast.LENGTH_SHORT).show();
             return;
         }
+        File[] currentFiles = currentFolder.listFiles();
+        if (currentFiles.length > 0) {
+            for(File file: currentFiles) {
+                file.delete();
+            }
+        }
         currentFolder.delete();
         Toast.makeText(AlbumActivity.this, alertDeletedFolder, Toast.LENGTH_SHORT).show();
         AlbumActivity.this.finish();
