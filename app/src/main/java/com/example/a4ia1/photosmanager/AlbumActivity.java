@@ -121,6 +121,8 @@ public class AlbumActivity extends AppCompatActivity {
         childLayout.setLayoutParams(lparams);
 
         int picturesCount = 1;
+        int listSize = picturesList.size();
+        Log.d("List Size", String.valueOf(listSize));
         // for properly image structure
         Boolean leftIsSmaller = true;
         for (File file: picturesList) {
@@ -143,6 +145,13 @@ public class AlbumActivity extends AppCompatActivity {
             iv.setImageBitmap(betterImage);
             iv.setId(picturesCount - 1);
             leftIsSmaller = !leftIsSmaller;
+            if (listSize == picturesCount && picturesCount % 2 != 0) {
+                iv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1));
+                Log.d("Last move", String.valueOf(picturesCount));
+                childLayout.addView(iv);
+                imagesLayout.addView(childLayout);
+                break;
+            }
             childLayout.addView(iv);
             if (picturesCount % 2 == 0) {
                 leftIsSmaller = !leftIsSmaller;
