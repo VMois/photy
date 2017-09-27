@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.example.a4ia1.photosmanager.Picture">
     <RelativeLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -15,14 +15,28 @@
             android:scaleType="centerCrop"
             android:id="@+id/main_image"
             />
-        <ImageView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+        <ImageView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:src="@drawable/scale"
             android:background="@color/colorPrimaryDark"
-            android:layout_alignParentBottom="true"
             android:id="@+id/scale_icon"
             />
+        <ImageView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/delete_icon"
+            android:background="@color/colorPrimaryDark"
+            android:id="@+id/delete_image_icon"
+            />
+        </LinearLayout>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
