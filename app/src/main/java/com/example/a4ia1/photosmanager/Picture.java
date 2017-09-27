@@ -3,6 +3,7 @@ package com.example.a4ia1.photosmanager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.media.Image;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -18,6 +20,8 @@ public class Picture extends AppCompatActivity {
 
     private ImageView mainImage;
     private ImageView scaleIconButton;
+    private ImageView deleteButton;
+    private File currentFile;
     private Bitmap originalBitmap;
     private Bitmap imageBitmap;
     private int originalWidth;
@@ -45,6 +49,7 @@ public class Picture extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         String imagePath = bundle.getString("imagePath").toString();
+        currentFile = new File(imagePath);
         originalBitmap = betterImageDecode(imagePath);
         originalWidth = originalBitmap.getWidth();
         originalHeight = originalBitmap.getHeight();
@@ -58,6 +63,14 @@ public class Picture extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onScaleButtonClick(v);
+            }
+        });
+
+        deleteButton = (ImageView) findViewById(R.id.delete_image_icon);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDeleteImageButtonClick(v);
             }
         });
     }
@@ -94,5 +107,17 @@ public class Picture extends AppCompatActivity {
         if (scaleType > 2) {
             scaleType = 0;
         }
+    }
+
+    private void onDeleteImageButtonClick(View view) {
+        String alertDeletedFolder = getString(R.string.alert_deleted_folder);
+        String alertDeletedFolderNotExist = getString(R.string.alert_deleted_folder_not_exist);
+        if(!currentFile.exists()) {
+            Toast.makeText(getApplicationContext(), alertDeletedFolderNotExist, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        currentFile.delete();
+        Toast.makeText(getApplicationContext(), alertDeletedFolder, Toast.LENGTH_SHORT).show();
+        Picture.this.finish();
     }
 }
