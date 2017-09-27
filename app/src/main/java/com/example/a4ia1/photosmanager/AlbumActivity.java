@@ -27,6 +27,7 @@ public class AlbumActivity extends AppCompatActivity {
     private LinearLayout imagesLayout;
     private LinearLayout.LayoutParams lparams;
     private LinearLayout childLayout;
+    private Point size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,19 +40,67 @@ public class AlbumActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String folderName = bundle.getString("folderName").toString();
         imagesLayout = (LinearLayout) findViewById(R.id.images_layout);
-        picturesList = new ArrayList<>();
 
         // get display size
         Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
+        size = new Point();
         display.getSize(size);
 
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         String mainFolderName = getString(R.string.main_folder_name);
         File mainDir = new File(pictureFolder, mainFolderName);
         currentFolder = new File(mainDir, "/" + folderName + "/");
-        Log.d("Current Folder path", currentFolder.getAbsolutePath());
 
+        deleteFolderButton = (ImageView) findViewById(R.id.delete_folder_icon);
+
+        deleteFolderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDeleteFolderButtonClick(v);
+            }
+        });
+
+        updateImagesList();
+    }
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        updateImagesList();
+    }
+
+    private void onDeleteFolderButtonClick(View view) {
+        String alertDeletedFolder = getString(R.string.alert_deleted_folder);
+        String alertDeletedFolderNotExist = getString(R.string.alert_deleted_folder_not_exist);
+        if(!currentFolder.exists()) {
+            Toast.makeText(AlbumActivity.this, alertDeletedFolderNotExist, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        currentFolder.delete();
+        Toast.makeText(AlbumActivity.this, alertDeletedFolder, Toast.LENGTH_SHORT).show();
+        AlbumActivity.this.finish();
+    }
+
+    private void onImageClick(View view) {
+        // convert to image view to get file path
+        ImageView iv = (ImageView) view;
+        String imagePath = picturesList.get(iv.getId()).getAbsolutePath();
+        Intent intent = new Intent(getApplicationContext(), Picture.class);
+        intent.putExtra("imagePath", imagePath);
+        startActivity(intent);
+    }
+
+    private Bitmap betterImageDecode(String filePath) {
+        Bitmap myBitmap;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 4;
+        myBitmap = BitmapFactory.decodeFile(filePath, options);
+        return myBitmap;
+    }
+
+    private void updateImagesList() {
+        picturesList = new ArrayList<>();
+        imagesLayout.removeAllViews();
         if (currentFolder.isDirectory()) {
             // get all files
             // IMPORTANT! We don't check if file is image.
@@ -83,13 +132,15 @@ public class AlbumActivity extends AppCompatActivity {
                     onImageClick(v);
                 }
             });
-            iv.setImageBitmap(betterImage);
             iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
             if (leftIsSmaller) {
+                betterImage = Bitmap.createScaledBitmap(betterImage, small, betterImage.getHeight(), true);
                 iv.setLayoutParams(new LinearLayout.LayoutParams(small, LinearLayout.LayoutParams.MATCH_PARENT, 1));
             } else {
+                betterImage = Bitmap.createScaledBitmap(betterImage, big, betterImage.getHeight(), true);
                 iv.setLayoutParams(new LinearLayout.LayoutParams(big, LinearLayout.LayoutParams.MATCH_PARENT, 2));
             }
+            iv.setImageBitmap(betterImage);
             iv.setId(picturesCount - 1);
             leftIsSmaller = !leftIsSmaller;
             childLayout.addView(iv);
@@ -104,43 +155,5 @@ public class AlbumActivity extends AppCompatActivity {
             }
             picturesCount++;
         }
-
-        deleteFolderButton = (ImageView) findViewById(R.id.delete_folder_icon);
-
-        deleteFolderButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDeleteFolderButtonClick(v);
-            }
-        });
-    }
-
-    private void onDeleteFolderButtonClick(View view) {
-        String alertDeletedFolder = getString(R.string.alert_deleted_folder);
-        String alertDeletedFolderNotExist = getString(R.string.alert_deleted_folder_not_exist);
-        if(!currentFolder.exists()) {
-            Toast.makeText(AlbumActivity.this, alertDeletedFolderNotExist, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        currentFolder.delete();
-        Toast.makeText(AlbumActivity.this, alertDeletedFolder, Toast.LENGTH_SHORT).show();
-        AlbumActivity.this.finish();
-    }
-
-    private void onImageClick(View view) {
-        // convert to image view to get file path
-        ImageView iv = (ImageView) view;
-        String imagePath = picturesList.get(iv.getId()).getAbsolutePath();
-        Intent intent = new Intent(getApplicationContext(), Picture.class);
-        intent.putExtra("imagePath", imagePath);
-        startActivity(intent);
-    }
-
-    private Bitmap betterImageDecode(String filePath) {
-        Bitmap myBitmap;
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 4;
-        myBitmap = BitmapFactory.decodeFile(filePath, options);
-        return myBitmap;
     }
 }
