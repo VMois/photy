@@ -1,10 +1,12 @@
 package com.example.a4ia1.photosmanager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -70,21 +72,33 @@ public class AlbumActivity extends AppCompatActivity {
     }
 
     private void onDeleteFolderButtonClick(View view) {
-        String alertDeletedFolder = getString(R.string.alert_deleted_folder);
-        String alertDeletedFolderNotExist = getString(R.string.alert_deleted_folder_not_exist);
-        if(!currentFolder.exists()) {
-            Toast.makeText(AlbumActivity.this, alertDeletedFolderNotExist, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        File[] currentFiles = currentFolder.listFiles();
-        if (currentFiles.length > 0) {
-            for(File file: currentFiles) {
-                file.delete();
+        final AlertDialog.Builder alert = new AlertDialog.Builder(AlbumActivity.this);
+        alert.setTitle("Do you want to delete " + currentFolder.getName() + "?");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                String alertDeletedFolder = getString(R.string.alert_deleted_folder);
+                String alertDeletedFolderNotExist = getString(R.string.alert_deleted_folder_not_exist);
+                if(!currentFolder.exists()) {
+                    Toast.makeText(AlbumActivity.this, alertDeletedFolderNotExist, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                File[] currentFiles = currentFolder.listFiles();
+                if (currentFiles.length > 0) {
+                    for(File file: currentFiles) {
+                        file.delete();
+                    }
+                }
+                currentFolder.delete();
+                Toast.makeText(AlbumActivity.this, alertDeletedFolder, Toast.LENGTH_SHORT).show();
+                AlbumActivity.this.finish();
             }
-        }
-        currentFolder.delete();
-        Toast.makeText(AlbumActivity.this, alertDeletedFolder, Toast.LENGTH_SHORT).show();
-        AlbumActivity.this.finish();
+
+        });
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.show();
     }
 
     private void onImageClick(View view) {
