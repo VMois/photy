@@ -1,5 +1,6 @@
 package com.example.a4ia1.photosmanager;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -129,6 +130,9 @@ public class AlbumActivity extends AppCompatActivity {
         // convert to image view to get file path
         ImageView iv = (ImageView) view;
         String imagePath = iv.getDrawable().toString();
+        Intent intent = new Intent(getApplicationContext(), Picture.class);
+        intent.putExtra("imagePath", imagePath);
+        startActivity(intent);
     }
 
     private Bitmap betterImageDecode(String filePath) {
