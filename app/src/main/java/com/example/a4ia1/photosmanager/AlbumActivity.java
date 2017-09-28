@@ -142,7 +142,6 @@ public class AlbumActivity extends AppCompatActivity {
 
         int picturesCount = 1;
         int listSize = picturesList.size();
-        Log.d("List Size", String.valueOf(listSize));
         // for properly image structure
         Boolean leftIsSmaller = true;
         for (File file: picturesList) {
@@ -167,7 +166,6 @@ public class AlbumActivity extends AppCompatActivity {
             leftIsSmaller = !leftIsSmaller;
             if (listSize == picturesCount && picturesCount % 2 != 0) {
                 iv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1));
-                Log.d("Last move", String.valueOf(picturesCount));
                 childLayout.addView(iv);
                 imagesLayout.addView(childLayout);
                 break;

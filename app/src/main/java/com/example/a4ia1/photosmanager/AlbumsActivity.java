@@ -106,7 +106,6 @@ public class AlbumsActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("Click on folder","index = " + i);
                 String folderName = foldersList.get(i);
                 Intent intent = new Intent(AlbumsActivity.this, AlbumActivity.class);
                 intent.putExtra("folderName", folderName);
