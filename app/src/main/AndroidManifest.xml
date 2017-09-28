@@ -24,7 +24,8 @@
         </activity>
         <activity android:name=".AlbumsActivity" />
         <activity android:name=".AlbumActivity" />
-        <activity android:name=".Picture"></activity>
+        <activity android:name=".Picture" />
+        <activity android:name=".CameraActivity"></activity>
     </application>
 
 </manifest>
