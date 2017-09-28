@@ -66,13 +66,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCameraButtonClick(v);
+            }
+        });
+
     }
 
     // event function for AlbumsButton
     private void onAlbumsButtonClick(View view) {
         Intent intent = new Intent(MainActivity.this, AlbumsActivity.class);
         Bundle arrayBundle = new Bundle();
-        intent.putExtras(arrayBundle);
+        startActivity(intent);
+    }
+
+    private void onCameraButtonClick(View view) {
+        Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+        Bundle arrayBundle = new Bundle();
         startActivity(intent);
     }
 }
