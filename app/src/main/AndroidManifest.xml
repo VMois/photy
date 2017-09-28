@@ -24,7 +24,7 @@
         <activity android:name=".AlbumsActivity" />
         <activity android:name=".AlbumActivity" />
         <activity android:name=".Picture" />
-        <activity android:name=".CameraActivity"></activity>
+        <activity android:name=".CameraActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
