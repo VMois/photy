@@ -25,6 +25,27 @@ public class CameraActivity extends AppCompatActivity {
         initPreview();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (camera != null) {
+            camera.stopPreview();
+            // important line, not documented in API
+            cameraPreview.getHolder().removeCallback(cameraPreview);
+            camera.release();
+            camera = null;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (camera == null) {
+            initCamera();
+            initPreview();
+        }
+    }
+
     private int getCameraId() {
         int cid = 0;
         int camerasCount = Camera.getNumberOfCameras();
