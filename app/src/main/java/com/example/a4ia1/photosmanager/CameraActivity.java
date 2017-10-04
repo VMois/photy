@@ -1,5 +1,7 @@
 package com.example.a4ia1.photosmanager;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,10 +11,13 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -21,6 +26,7 @@ public class CameraActivity extends AppCompatActivity {
     private CameraPreview cameraPreview;
     private FrameLayout cameraFrameLayout;
     private ImageView takePhotoButton;
+    private ImageView savePhotoButton;
     private byte[] photoData;
 
     @Override
@@ -35,10 +41,17 @@ public class CameraActivity extends AppCompatActivity {
         initPreview();
 
         takePhotoButton = (ImageView) findViewById(R.id.take_photo_button);
+        savePhotoButton = (ImageView) findViewById(R.id.save_photo_button);
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 takePhoto(v);
+            }
+        });
+        savePhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                savePhoto(v);
             }
         });
     }
@@ -106,15 +119,40 @@ public class CameraActivity extends AppCompatActivity {
         camera.takePicture(null, null, camPictureCallback);
     }
 
-    private void savePhotoOnDisk() {
+    private void savePhoto(View v) {
         Constants constants = new Constants();
-        constants.getMainFolderFile();
+        final File mainFolderFile = constants.getMainFolderFile();
         SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        String d = dFormat.format(new Date());
+        final String newPhotoName = dFormat.format(new Date());
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(CameraActivity.this);
+        String title = getString(R.string.folder_choose);
+        alert.setTitle(title);
+
+        List<String> foldersList = new ArrayList<>();
+        // get list of all folders in main folder
+        for(File file: mainFolderFile.listFiles()) {
+            if(file.isDirectory()) {
+                foldersList.add(file.getName());
+            }
+        }
+        final String[] folderArray = foldersList.toArray(new String[0]);
+        alert.setItems(folderArray, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                String pathToSave = mainFolderFile.getAbsolutePath()
+                        + "/" + folderArray[which] + "/" + newPhotoName;
+                savePhotoOnDisk(pathToSave);
+            }
+        });
+        alert.show();
+    }
+
+    private void savePhotoOnDisk(String pathToSave) {
         try {
-            FileOutputStream fs = new FileOutputStream(constants.getMainFolderFile().getAbsolutePath() + "/places/" + d + ".png");
+            FileOutputStream fs = new FileOutputStream(pathToSave);
             fs.write(photoData);
             fs.close();
+            savePhotoButton.setVisibility(View.INVISIBLE);
         } catch (IOException err) {
             Log.e("[!] Bad photo save", err.toString());
         }
@@ -124,10 +162,8 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
             photoData = data;
-            savePhotoOnDisk();
+            savePhotoButton.setVisibility(View.VISIBLE);
             camera.startPreview();
-            // savePhotoOnDisk();
-
         }
     };
 }
