@@ -31,8 +31,11 @@ public class CameraActivity extends AppCompatActivity {
     private ImageView takePhotoButton;
     private ImageView savePhotoButton;
     private Button whiteBalanceButton;
+    private Button picturesSizesButton;
     private Camera.Parameters camParams;
     private String[] whiteBalanceOptions;
+    private List<Camera.Size> picturesSizesOptions;
+    private List<String> picturesSizesOptionsStrings;
     private byte[] photoData;
 
     @Override
@@ -50,10 +53,18 @@ public class CameraActivity extends AppCompatActivity {
         // get camera parameters
         camParams = camera.getParameters();
         whiteBalanceOptions = camParams.getSupportedWhiteBalance().toArray(new String[0]);
+        picturesSizesOptions = camParams.getSupportedPictureSizes();
+        picturesSizesOptionsStrings = new ArrayList<>();
+        for(Camera.Size size: picturesSizesOptions) {
+            String width = String.valueOf(size.width);
+            String height = String.valueOf(size.height);
+            picturesSizesOptionsStrings.add(width + "x" + height);
+        }
 
         takePhotoButton = (ImageView) findViewById(R.id.take_photo_button);
         savePhotoButton = (ImageView) findViewById(R.id.save_photo_button);
         whiteBalanceButton = (Button) findViewById(R.id.white_balance_button);
+        picturesSizesButton = (Button) findViewById(R.id.images_sizes_button);
 
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +82,12 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 whiteBalanceButtonClick(v);
+            }
+        });
+        picturesSizesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                picturesSizesButtonClick(v);
             }
         });
     }
@@ -173,6 +190,19 @@ public class CameraActivity extends AppCompatActivity {
         alert.setItems(whiteBalanceOptions, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 camParams.setWhiteBalance(whiteBalanceOptions[which]);
+                camera.setParameters(camParams);
+            }
+        });
+        alert.show();
+    }
+
+    private void picturesSizesButtonClick(View v) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(CameraActivity.this);
+        String title = getString(R.string.folder_choose);
+        alert.setTitle(title);
+        alert.setItems(picturesSizesOptionsStrings.toArray(new String[0]), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                camParams.setPictureSize(picturesSizesOptions.get(which).width, picturesSizesOptions.get(which).height);
                 camera.setParameters(camParams);
             }
         });
