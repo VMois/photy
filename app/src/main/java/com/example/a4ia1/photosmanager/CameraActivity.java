@@ -4,7 +4,15 @@ import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.hardware.Camera;
+import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -12,6 +20,8 @@ public class CameraActivity extends AppCompatActivity {
     private int cameraId = -1;
     private CameraPreview cameraPreview;
     private FrameLayout cameraFrameLayout;
+    private ImageView takePhotoButton;
+    private byte[] photoData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +33,14 @@ public class CameraActivity extends AppCompatActivity {
 
         initCamera();
         initPreview();
+
+        takePhotoButton = (ImageView) findViewById(R.id.take_photo_button);
+        takePhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takePhoto(v);
+            }
+        });
     }
 
     @Override
@@ -83,4 +101,33 @@ public class CameraActivity extends AppCompatActivity {
         cameraFrameLayout = (FrameLayout) findViewById(R.id.camera_frame_layout);
         cameraFrameLayout.addView(cameraPreview);
     }
+
+    private void takePhoto(View v) {
+        camera.takePicture(null, null, camPictureCallback);
+    }
+
+    private void savePhotoOnDisk() {
+        Constants constants = new Constants();
+        constants.getMainFolderFile();
+        SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String d = dFormat.format(new Date());
+        try {
+            FileOutputStream fs = new FileOutputStream(constants.getMainFolderFile().getAbsolutePath() + "/places/" + d + ".png");
+            fs.write(photoData);
+            fs.close();
+        } catch (IOException err) {
+            Log.e("[!] Bad photo save", err.toString());
+        }
+    }
+
+    private Camera.PictureCallback camPictureCallback = new Camera.PictureCallback() {
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            photoData = data;
+            savePhotoOnDisk();
+            camera.startPreview();
+            // savePhotoOnDisk();
+
+        }
+    };
 }
