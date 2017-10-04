@@ -27,6 +27,7 @@ public class CameraActivity extends AppCompatActivity {
     private FrameLayout cameraFrameLayout;
     private ImageView takePhotoButton;
     private ImageView savePhotoButton;
+    private Camera.Parameters camParams;
     private byte[] photoData;
 
     @Override
@@ -37,11 +38,17 @@ public class CameraActivity extends AppCompatActivity {
         // hide top bar
         getSupportActionBar().hide();
 
+        // init camera
         initCamera();
         initPreview();
 
+        // get camera parameters
+        camParams = camera.getParameters();
+        String[] whiteBalanceOptions = camParams.getSupportedWhiteBalance().toArray(new String[0]);
+
         takePhotoButton = (ImageView) findViewById(R.id.take_photo_button);
         savePhotoButton = (ImageView) findViewById(R.id.save_photo_button);
+
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,6 +169,7 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
             photoData = data;
+            // show button to save photo
             savePhotoButton.setVisibility(View.VISIBLE);
             camera.startPreview();
         }
