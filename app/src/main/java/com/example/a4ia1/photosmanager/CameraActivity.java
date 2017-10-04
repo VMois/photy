@@ -32,8 +32,10 @@ public class CameraActivity extends AppCompatActivity {
     private ImageView savePhotoButton;
     private Button whiteBalanceButton;
     private Button picturesSizesButton;
+    private Button supportedColorEffectsButton;
     private Camera.Parameters camParams;
     private String[] whiteBalanceOptions;
+    private String[] supportedColorEffects;
     private List<Camera.Size> picturesSizesOptions;
     private List<String> picturesSizesOptionsStrings;
     private byte[] photoData;
@@ -54,6 +56,8 @@ public class CameraActivity extends AppCompatActivity {
         camParams = camera.getParameters();
         whiteBalanceOptions = camParams.getSupportedWhiteBalance().toArray(new String[0]);
         picturesSizesOptions = camParams.getSupportedPictureSizes();
+        supportedColorEffects = camParams.getSupportedColorEffects().toArray(new String[0]);
+
         picturesSizesOptionsStrings = new ArrayList<>();
         for(Camera.Size size: picturesSizesOptions) {
             String width = String.valueOf(size.width);
@@ -65,6 +69,7 @@ public class CameraActivity extends AppCompatActivity {
         savePhotoButton = (ImageView) findViewById(R.id.save_photo_button);
         whiteBalanceButton = (Button) findViewById(R.id.white_balance_button);
         picturesSizesButton = (Button) findViewById(R.id.images_sizes_button);
+        supportedColorEffectsButton = (Button) findViewById(R.id.color_effects_button);
 
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +93,12 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 picturesSizesButtonClick(v);
+            }
+        });
+        supportedColorEffectsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                supportedColorEffectsButtonClick(v);
             }
         });
     }
@@ -203,6 +214,19 @@ public class CameraActivity extends AppCompatActivity {
         alert.setItems(picturesSizesOptionsStrings.toArray(new String[0]), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 camParams.setPictureSize(picturesSizesOptions.get(which).width, picturesSizesOptions.get(which).height);
+                camera.setParameters(camParams);
+            }
+        });
+        alert.show();
+    }
+
+    private void supportedColorEffectsButtonClick(View v) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(CameraActivity.this);
+        String title = getString(R.string.folder_choose);
+        alert.setTitle(title);
+        alert.setItems(supportedColorEffects, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                camParams.setColorEffect(supportedColorEffects[which]);
                 camera.setParameters(camParams);
             }
         });
