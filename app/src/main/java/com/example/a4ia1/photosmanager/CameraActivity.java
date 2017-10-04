@@ -33,11 +33,13 @@ public class CameraActivity extends AppCompatActivity {
     private Button whiteBalanceButton;
     private Button picturesSizesButton;
     private Button supportedColorEffectsButton;
+    private Button exposureCompensationButton;
     private Camera.Parameters camParams;
     private String[] whiteBalanceOptions;
     private String[] supportedColorEffects;
     private List<Camera.Size> picturesSizesOptions;
     private List<String> picturesSizesOptionsStrings;
+    private List<String> exposureCompensationList;
     private byte[] photoData;
 
     @Override
@@ -57,6 +59,12 @@ public class CameraActivity extends AppCompatActivity {
         whiteBalanceOptions = camParams.getSupportedWhiteBalance().toArray(new String[0]);
         picturesSizesOptions = camParams.getSupportedPictureSizes();
         supportedColorEffects = camParams.getSupportedColorEffects().toArray(new String[0]);
+        int minExp = camParams.getMinExposureCompensation();
+        int maxExp = camParams.getMaxExposureCompensation();
+        exposureCompensationList = new ArrayList<>();
+        for(int i = minExp; i <= maxExp; i++ ) {
+            exposureCompensationList.add(String.valueOf(i));
+        }
 
         picturesSizesOptionsStrings = new ArrayList<>();
         for(Camera.Size size: picturesSizesOptions) {
@@ -70,6 +78,7 @@ public class CameraActivity extends AppCompatActivity {
         whiteBalanceButton = (Button) findViewById(R.id.white_balance_button);
         picturesSizesButton = (Button) findViewById(R.id.images_sizes_button);
         supportedColorEffectsButton = (Button) findViewById(R.id.color_effects_button);
+        exposureCompensationButton = (Button) findViewById(R.id.exposure_compensation_button);
 
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +108,12 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 supportedColorEffectsButtonClick(v);
+            }
+        });
+        exposureCompensationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exposureCompensationButtonClick(v);
             }
         });
     }
@@ -227,6 +242,19 @@ public class CameraActivity extends AppCompatActivity {
         alert.setItems(supportedColorEffects, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 camParams.setColorEffect(supportedColorEffects[which]);
+                camera.setParameters(camParams);
+            }
+        });
+        alert.show();
+    }
+
+    private void exposureCompensationButtonClick(View v) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(CameraActivity.this);
+        String title = getString(R.string.folder_choose);
+        alert.setTitle(title);
+        alert.setItems(exposureCompensationList.toArray(new String[0]), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                camParams.setExposureCompensation(Integer.parseInt(exposureCompensationList.get(which)));
                 camera.setParameters(camParams);
             }
         });

@@ -33,6 +33,12 @@
             android:layout_weight="1"
             android:id="@+id/color_effects_button"
             android:text="Color Effects"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/exposure_compensation_button"
+            android:text="Exposure Compensation"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
