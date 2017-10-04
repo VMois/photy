@@ -2,12 +2,14 @@ package com.example.a4ia1.photosmanager;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.pm.LauncherApps;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -18,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -27,7 +30,9 @@ public class CameraActivity extends AppCompatActivity {
     private FrameLayout cameraFrameLayout;
     private ImageView takePhotoButton;
     private ImageView savePhotoButton;
+    private Button whiteBalanceButton;
     private Camera.Parameters camParams;
+    private String[] whiteBalanceOptions;
     private byte[] photoData;
 
     @Override
@@ -44,10 +49,11 @@ public class CameraActivity extends AppCompatActivity {
 
         // get camera parameters
         camParams = camera.getParameters();
-        String[] whiteBalanceOptions = camParams.getSupportedWhiteBalance().toArray(new String[0]);
+        whiteBalanceOptions = camParams.getSupportedWhiteBalance().toArray(new String[0]);
 
         takePhotoButton = (ImageView) findViewById(R.id.take_photo_button);
         savePhotoButton = (ImageView) findViewById(R.id.save_photo_button);
+        whiteBalanceButton = (Button) findViewById(R.id.white_balance_button);
 
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +65,12 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 savePhoto(v);
+            }
+        });
+        whiteBalanceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                whiteBalanceButtonClick(v);
             }
         });
     }
@@ -149,6 +161,19 @@ public class CameraActivity extends AppCompatActivity {
                 String pathToSave = mainFolderFile.getAbsolutePath()
                         + "/" + folderArray[which] + "/" + newPhotoName;
                 savePhotoOnDisk(pathToSave);
+            }
+        });
+        alert.show();
+    }
+
+    private void whiteBalanceButtonClick(View v) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(CameraActivity.this);
+        String title = getString(R.string.folder_choose);
+        alert.setTitle(title);
+        alert.setItems(whiteBalanceOptions, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                camParams.setWhiteBalance(whiteBalanceOptions[which]);
+                camera.setParameters(camParams);
             }
         });
         alert.show();
