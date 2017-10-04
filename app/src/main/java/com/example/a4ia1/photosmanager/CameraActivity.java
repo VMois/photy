@@ -54,9 +54,9 @@ public class CameraActivity extends AppCompatActivity {
             Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
             Camera.getCameraInfo(i, cameraInfo);
 
-            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+            /* if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
                 cid = i;
-            }
+            }*/
             if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
                 cid = i;
             }
