@@ -9,24 +9,16 @@ import java.io.File;
 
 public class Constants {
     private static File mainFolderFile;
-    private static String mainFolderName = "VladyslavMoisieienkov";
-    private static String notesTableName = "notes";
-    private static String mainDatabaseName = "DatabaseVladyslavMoisieienkov";
+    public final static String MAIN_FOLDER_NAME = "VladyslavMoisieienkov";
+    public final static String NOTES_TABLE_NAME = "notes";
+    public final static String MAIN_DATABASE_NAME = "DatabaseVladyslavMoisieienkov";
 
     public Constants() {
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        mainFolderFile = new File(pictureFolder, mainFolderName);
+        mainFolderFile = new File(pictureFolder, MAIN_FOLDER_NAME);
     }
 
     public File getMainFolderFile() {
         return mainFolderFile;
-    }
-
-    public String getNotesTableName() {
-        return notesTableName;
-    }
-
-    public String getMainDatabaseName() {
-        return mainDatabaseName;
     }
 }

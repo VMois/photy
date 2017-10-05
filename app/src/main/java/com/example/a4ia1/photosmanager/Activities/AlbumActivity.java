@@ -67,10 +67,11 @@ public class AlbumActivity extends AppCompatActivity {
 
         DatabaseManager db = new DatabaseManager(
                 AlbumActivity.this,
-                constants.getMainDatabaseName(),
+                Constants.MAIN_DATABASE_NAME,
                 null,
                 1
         );
+        db.insert("title-1", "neofnefefe", "blue", "/home/test/");
     }
 
     @Override
