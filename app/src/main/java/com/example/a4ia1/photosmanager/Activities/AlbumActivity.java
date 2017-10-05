@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.a4ia1.photosmanager.Helpers.Constants;
+import com.example.a4ia1.photosmanager.Helpers.DatabaseManager;
 import com.example.a4ia1.photosmanager.R;
 
 import java.io.File;
@@ -48,9 +50,8 @@ public class AlbumActivity extends AppCompatActivity {
         size = new Point();
         display.getSize(size);
 
-        File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        String mainFolderName = getString(R.string.main_folder_name);
-        File mainDir = new File(pictureFolder, mainFolderName);
+        Constants constants = new Constants();
+        File mainDir = constants.getMainFolderFile();
         currentFolder = new File(mainDir, "/" + folderName + "/");
 
         deleteFolderButton = (ImageView) findViewById(R.id.delete_folder_icon);
