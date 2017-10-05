@@ -1,4 +1,4 @@
-package com.example.a4ia1.photosmanager;
+package com.example.a4ia1.photosmanager.Helpers;
 
 import android.content.Context;
 import android.hardware.Camera;

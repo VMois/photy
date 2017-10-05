@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/album_view"
-    tools:context="com.example.a4ia1.photosmanager.AlbumActivity">
+    tools:context=".Activities.AlbumActivity">
 
     <ScrollView
         android:layout_height="match_parent"

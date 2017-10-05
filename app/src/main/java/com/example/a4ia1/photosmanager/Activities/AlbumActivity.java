@@ -1,4 +1,4 @@
-package com.example.a4ia1.photosmanager;
+package com.example.a4ia1.photosmanager.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,13 +9,13 @@ import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.example.a4ia1.photosmanager.R;
 
 import java.io.File;
 import java.util.ArrayList;
