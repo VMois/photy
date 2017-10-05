@@ -1,8 +1,6 @@
 package com.example.a4ia1.photosmanager.Helpers;
 
-import android.content.res.Resources;
 import android.os.Environment;
-
 import java.io.File;
 
 /**
@@ -12,6 +10,7 @@ import java.io.File;
 public class Constants {
     private static File mainFolderFile;
     private static String mainFolderName = "VladyslavMoisieienkov";
+    private static String notesTableName = "notes";
 
     public Constants() {
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
@@ -20,5 +19,9 @@ public class Constants {
 
     public File getMainFolderFile() {
         return mainFolderFile;
+    }
+
+    public String getNotesTableName() {
+        return notesTableName;
     }
 }
