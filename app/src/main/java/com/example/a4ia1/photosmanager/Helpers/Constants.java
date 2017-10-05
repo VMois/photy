@@ -11,6 +11,7 @@ public class Constants {
     private static File mainFolderFile;
     private static String mainFolderName = "VladyslavMoisieienkov";
     private static String notesTableName = "notes";
+    private static String mainDatabaseName = "DatabaseVladyslavMoisieienkov";
 
     public Constants() {
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
@@ -23,5 +24,9 @@ public class Constants {
 
     public String getNotesTableName() {
         return notesTableName;
+    }
+
+    public String getMainDatabaseName() {
+        return mainDatabaseName;
     }
 }

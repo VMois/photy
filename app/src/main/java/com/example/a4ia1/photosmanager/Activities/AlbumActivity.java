@@ -64,6 +64,13 @@ public class AlbumActivity extends AppCompatActivity {
         });
 
         updateImagesList();
+
+        DatabaseManager db = new DatabaseManager(
+                AlbumActivity.this,
+                constants.getMainDatabaseName(),
+                null,
+                1
+        );
     }
 
     @Override

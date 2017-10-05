@@ -9,19 +9,26 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DatabaseManager extends SQLiteOpenHelper {
 
+    private Constants constants;
+
     public DatabaseManager(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+        constants = new Constants();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE test1 (_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'a' TEXT, 'b' TEXT)");
+        db.execSQL("CREATE TABLE " + constants.getNotesTableName()
+                + " (_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'title' TEXT, 'text' TEXT, 'color' TEXT, 'image_path' TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         // drop old table
-        db.execSQL("DROP TABLE IF EXISTS tabela1");
+        db.execSQL("DROP TABLE IF EXISTS " + constants.getMainDatabaseName());
+
+        // increase database version
+        db.setVersion(db.getVersion() + 1);
         // create new table
         onCreate(db);
     }
