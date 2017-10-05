@@ -10,9 +10,9 @@ public class Note {
     private String color;
 
     public Note(String ImagePath, String Title, String Text, String Color) {
-        imagePath = ImagePath;
-        title = Title;
-        text = Text;
-        color = Color;
+        this.imagePath = ImagePath;
+        this.title = Title;
+        this.text = Text;
+        this.color = Color;
     }
 }
