@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.a4ia1.photosmanager.Helpers.Constants;
+import com.example.a4ia1.photosmanager.Helpers.CustomImageView;
 import com.example.a4ia1.photosmanager.Helpers.DatabaseManager;
 import com.example.a4ia1.photosmanager.R;
 
@@ -155,14 +156,14 @@ public class AlbumActivity extends AppCompatActivity {
         Boolean leftIsSmaller = true;
         for (File file: picturesList) {
             Bitmap betterImage = betterImageDecode(file.getAbsolutePath());
-            ImageView iv = new ImageView(this);
-            iv.setOnClickListener(new View.OnClickListener() {
+            CustomImageView iv = new CustomImageView(this, file, getApplicationContext());
+            /*iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onImageClick(v);
                 }
-            });
-            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            });*/
+            // iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
             if (leftIsSmaller) {
                 betterImage = Bitmap.createScaledBitmap(betterImage, small, betterImage.getHeight(), true);
                 iv.setLayoutParams(new LinearLayout.LayoutParams(small, LinearLayout.LayoutParams.MATCH_PARENT, 1));
