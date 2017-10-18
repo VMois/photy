@@ -43,7 +43,6 @@ public class NotesActivity extends AppCompatActivity {
 
         // connect adapter to our listView to show notes
         listView.setAdapter(adapter);
-        db.close();
     }
 
     @Override
