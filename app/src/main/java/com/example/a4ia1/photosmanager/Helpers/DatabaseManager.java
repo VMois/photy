@@ -2,8 +2,11 @@ package com.example.a4ia1.photosmanager.Helpers;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
 
 /**
  * Created by 4ia1 on 2017-10-05.
@@ -49,4 +52,22 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return true;
     }
 
+    public ArrayList<Note> getAllNotes() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Note> notes= new ArrayList<>();
+        // craft query
+        Cursor result = db.rawQuery("SELECT * FROM " + Constants.NOTES_TABLE_NAME , null);
+
+        // iterate over results
+        while(result.moveToNext()){
+            notes.add(new Note(
+                    result.getString(result.getColumnIndex("title")),
+                    result.getString(result.getColumnIndex("text")),
+                    result.getString(result.getColumnIndex("color")),
+                    result.getString(result.getColumnIndex("image_path"))
+            ));
+        }
+        return notes;
+
+    }
 }
