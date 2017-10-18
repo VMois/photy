@@ -52,6 +52,13 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return true;
     }
 
+    // clear all records from database
+    public boolean clearTable(String tableName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(tableName, null, null);
+        return true;
+    }
+
     public ArrayList<Note> getAllNotes() {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Note> notes= new ArrayList<>();
