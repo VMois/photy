@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
-
-import com.example.a4ia1.photosmanager.Activities.AlbumActivity;
 import com.example.a4ia1.photosmanager.Activities.Picture;
 
 import java.io.File;
@@ -30,6 +28,7 @@ public class CustomImageView extends ImageView implements ImageView.OnClickListe
     public void onClick(View view) {
         String imagePath = currentImage.getAbsolutePath();
         Intent intent = new Intent(currentContext, Picture.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("imagePath", imagePath);
         currentContext.startActivity(intent);
     }
