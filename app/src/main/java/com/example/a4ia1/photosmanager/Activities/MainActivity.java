@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Button    rightArrowButton;
     private LinearLayout collageButton;
     private LinearLayout networkButton;
+    private LinearLayout notesButton;
     private List<String> foldersList;
 
     @Override
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         cameraButton = (LinearLayout) findViewById(R.id.camera_button);
         collageButton = (LinearLayout) findViewById(R.id.collage_button);
         networkButton = (LinearLayout) findViewById(R.id.network_button);
+        notesButton = (LinearLayout) findViewById(R.id.notes_button);
 
         albumsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +77,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        notesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onNotesButtonClick(v);
+            }
+        });
     }
 
     // event function for AlbumsButton
@@ -86,6 +94,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void onCameraButtonClick(View view) {
         Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+        Bundle arrayBundle = new Bundle();
+        startActivity(intent);
+    }
+
+    private void onNotesButtonClick(View view) {
+        Intent intent = new Intent(MainActivity.this, NotesActivity.class);
         Bundle arrayBundle = new Bundle();
         startActivity(intent);
     }

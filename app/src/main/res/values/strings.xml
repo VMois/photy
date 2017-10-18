@@ -12,4 +12,5 @@
     <string name="alert_deleted_folder_not_exist">Folder doesnt exist!</string>
     <string name="add_folder_button_label">Add</string>
     <string name="folder_choose">Choose where save new photo</string>
+    <string name="notes_label">Notes</string>
 </resources>
