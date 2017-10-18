@@ -72,7 +72,7 @@ public class AlbumActivity extends AppCompatActivity {
                 null,
                 1
         );
-        db.insert("title-1", "neofnefefe", "blue", "/home/test/");
+        db.insert("title-1", "text notatki", "#FF0000", "/home/test/");
     }
 
     @Override
