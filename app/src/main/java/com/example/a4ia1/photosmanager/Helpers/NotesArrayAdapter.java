@@ -5,16 +5,12 @@ import android.graphics.Color;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.a4ia1.photosmanager.R;
-
 import java.util.ArrayList;
 
 /**
@@ -23,14 +19,10 @@ import java.util.ArrayList;
 
 public class NotesArrayAdapter extends ArrayAdapter {
     private ArrayList<Note> _list;
-    private Context _context;
-    private int _resource;
 
     public NotesArrayAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<Note> objects) {
         super(context, resource, objects);
         this._list = objects;
-        this._context = context;
-        this._resource = resource;
     }
 
     @NonNull
@@ -40,28 +32,23 @@ public class NotesArrayAdapter extends ArrayAdapter {
         getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.notes_row_layout, null);
 
-        // set number of note in list
-        TextView idTextView = (TextView) convertView.findViewById(R.id.note_id_textview);
+        // set number of notes in list
+        TextView idTextView = convertView.findViewById(R.id.note_id_textview);
+
+        // add position (start from 1)
         idTextView.setText(String.valueOf(position + 1));
 
         // get current Note object
         Note currentNote = this._list.get(position);
 
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.note_title_textview);
+        // cast is not needed here :)
+        TextView titleTextView = convertView.findViewById(R.id.note_title_textview);
         titleTextView.setText(currentNote.getTitle());
+
         titleTextView.setTextColor(Color.parseColor(currentNote.getColor()));
 
-        TextView textTextView = (TextView) convertView.findViewById(R.id.note_text_textview);
+        TextView textTextView = convertView.findViewById(R.id.note_text_textview);
         textTextView.setText(currentNote.getText());
-
-        // set debug log for future use
-        ImageView iv1 = (ImageView) convertView.findViewById(R.id.note_base_image);
-        iv1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("Click on note", "Pos:" + position);
-            }
-        });
 
         return convertView;
     }

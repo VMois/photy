@@ -1,11 +1,9 @@
 package com.example.a4ia1.photosmanager.Activities;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
-import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +31,7 @@ public class AlbumActivity extends AppCompatActivity {
     private LinearLayout.LayoutParams lparams;
     private LinearLayout childLayout;
     private Point size;
+    private DatabaseManager db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +63,13 @@ public class AlbumActivity extends AppCompatActivity {
             }
         });
 
-        updateImagesList();
-
-        DatabaseManager db = new DatabaseManager(
+        db = new DatabaseManager(
                 AlbumActivity.this,
                 Constants.MAIN_DATABASE_NAME,
                 null,
                 1
         );
-        db.insert("title-1", "text notatki", "#FF0000", "/home/test/");
+        updateImagesList();
     }
 
     @Override
@@ -111,15 +108,6 @@ public class AlbumActivity extends AppCompatActivity {
         alert.show();
     }
 
-    private void onImageClick(View view) {
-        // convert to image view to get file path
-        ImageView iv = (ImageView) view;
-        String imagePath = picturesList.get(iv.getId()).getAbsolutePath();
-        Intent intent = new Intent(getApplicationContext(), Picture.class);
-        intent.putExtra("imagePath", imagePath);
-        startActivity(intent);
-    }
-
     private Bitmap betterImageDecode(String filePath) {
         Bitmap myBitmap;
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -156,14 +144,7 @@ public class AlbumActivity extends AppCompatActivity {
         Boolean leftIsSmaller = true;
         for (File file: picturesList) {
             Bitmap betterImage = betterImageDecode(file.getAbsolutePath());
-            CustomImageView iv = new CustomImageView(this, file, getApplicationContext());
-            /*iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onImageClick(v);
-                }
-            });*/
-            // iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            CustomImageView iv = new CustomImageView(AlbumActivity.this, file, this.db);
             if (leftIsSmaller) {
                 betterImage = Bitmap.createScaledBitmap(betterImage, small, betterImage.getHeight(), true);
                 iv.setLayoutParams(new LinearLayout.LayoutParams(small, LinearLayout.LayoutParams.MATCH_PARENT, 1));

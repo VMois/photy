@@ -52,13 +52,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return true;
     }
 
-    // clear all records from database
-    public boolean clearTable(String tableName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(tableName, null, null);
-        return true;
-    }
-
     public ArrayList<Note> getAllNotes() {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Note> notes= new ArrayList<>();
@@ -67,14 +60,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         // iterate over results
         while(result.moveToNext()){
-            notes.add(new Note(
+            Note newNote = new Note(
                     result.getString(result.getColumnIndex("title")),
                     result.getString(result.getColumnIndex("text")),
                     result.getString(result.getColumnIndex("color")),
                     result.getString(result.getColumnIndex("image_path"))
-            ));
+            );
+            notes.add(newNote);
         }
         return notes;
-
     }
 }
