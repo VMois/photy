@@ -9,7 +9,7 @@ public class Note {
     private String text;
     private String color;
 
-    public Note(String ImagePath, String Title, String Text, String Color) {
+    public Note(String Title, String Text, String Color, String ImagePath) {
         this.imagePath = ImagePath;
         this.title = Title;
         this.text = Text;
