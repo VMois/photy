@@ -15,4 +15,20 @@ public class Note {
         this.text = Text;
         this.color = Color;
     }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public String getText() {
+        return this.text;
+    }
+
+    public String getColor() {
+        return this.color;
+    }
+
+    public String getImagePath() {
+        return this.imagePath;
+    }
 }
