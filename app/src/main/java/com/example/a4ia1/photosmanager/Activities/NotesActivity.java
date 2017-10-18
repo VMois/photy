@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class NotesActivity extends AppCompatActivity {
     private ListView listView;
+    private DatabaseManager db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class NotesActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.notes_listview);
 
         // create database, version 1
-        DatabaseManager db = new DatabaseManager(
+        db = new DatabaseManager(
                 NotesActivity.this,
                 Constants.MAIN_DATABASE_NAME,
                 null,
@@ -42,6 +43,18 @@ public class NotesActivity extends AppCompatActivity {
 
         // connect adapter to our listView to show notes
         listView.setAdapter(adapter);
+        db.close();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        db.close();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         db.close();
     }
 }
