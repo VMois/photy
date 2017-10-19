@@ -1,6 +1,7 @@
 package com.example.a4ia1.photosmanager.Activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.example.a4ia1.photosmanager.Helpers.Note;
 import com.example.a4ia1.photosmanager.Adapters.NotesArrayAdapter;
 import com.example.a4ia1.photosmanager.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,11 +45,17 @@ public class NotesActivity extends AppCompatActivity {
 
     // Positions
     // 0 - delete note
+    // 1 - edit note (open NoteEditActivity)
     private void handleNoteOption(int which, Note selectedNote) {
         switch (which) {
             case 0:
                 db.deleteNote(selectedNote.getId());
                 renderNotesList();
+                return;
+            case 1:
+                Intent intent = new Intent(NotesActivity.this, NoteEditActivity.class);
+                intent.putExtra("note", selectedNote);
+                startActivity(intent);
                 return;
             default:
         }

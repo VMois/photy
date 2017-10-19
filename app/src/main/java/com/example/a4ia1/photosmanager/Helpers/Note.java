@@ -5,10 +5,10 @@ package com.example.a4ia1.photosmanager.Helpers;
  */
 public class Note {
     private int id;
-    private String imagePath;
     private String title;
     private String text;
     private String color;
+    private String imagePath;
 
     public Note(int Id, String Title, String Text, String Color, String ImagePath) {
         this.id = Id;
