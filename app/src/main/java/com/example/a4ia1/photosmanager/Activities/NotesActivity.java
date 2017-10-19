@@ -1,7 +1,12 @@
 package com.example.a4ia1.photosmanager.Activities;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.a4ia1.photosmanager.Helpers.Constants;
@@ -11,10 +16,12 @@ import com.example.a4ia1.photosmanager.Adapters.NotesArrayAdapter;
 import com.example.a4ia1.photosmanager.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NotesActivity extends AppCompatActivity {
     private ListView listView;
     private DatabaseManager db;
+    private ArrayList<Note> notesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +38,24 @@ public class NotesActivity extends AppCompatActivity {
                 null,
                 1
         );
+        renderNotesList();
+    }
 
+    // Positions
+    // 0 - delete note
+    private void handleNoteOption(int which, Note selectedNote) {
+        switch (which) {
+            case 0:
+                db.deleteNote(selectedNote.getId());
+                renderNotesList();
+                return;
+            default:
+        }
+    }
+
+    private void renderNotesList() {
         // get all notes from database
-        ArrayList<Note> notesList = db.getAllNotes();
+        notesList = db.getAllNotes();
 
         // create our custom adapter
         NotesArrayAdapter adapter = new NotesArrayAdapter(
@@ -43,6 +65,22 @@ public class NotesActivity extends AppCompatActivity {
 
         // connect adapter to our listView to show notes
         listView.setAdapter(adapter);
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                String dialogTitle = getString(R.string.note_options_dialog_title);
+                alert.setTitle(dialogTitle);
+                alert.setItems(Constants.NOTES_OPTIONS, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Note selectedNote = notesList.get(i);
+                        handleNoteOption(which, selectedNote);
+                    }
+                });
+                alert.show();
+                return true;
+            }
+        });
     }
 
     @Override

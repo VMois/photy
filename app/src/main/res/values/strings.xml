@@ -16,4 +16,5 @@
     <string name="notes_dialog_title">Title</string>
     <string name="notes_dialog_text">Text</string>
     <string name="notes_dialog_color">Colors</string>
+    <string name="note_options_dialog_title">Actions</string>
 </resources>

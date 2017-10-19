@@ -12,6 +12,7 @@ public class Constants {
     public final static String MAIN_FOLDER_NAME = "VladyslavMoisieienkov";
     public final static String NOTES_TABLE_NAME = "notes";
     public final static String MAIN_DATABASE_NAME = "DatabaseVladyslavMoisieienkov";
+    public final static String[] NOTES_OPTIONS = {"Delete"};
 
     public Constants() {
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
