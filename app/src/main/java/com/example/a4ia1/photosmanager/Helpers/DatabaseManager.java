@@ -71,4 +71,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
         }
         return notes;
     }
+
+    public int deleteNote(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String convertedId = String.valueOf(id);
+        return db.delete(Constants.NOTES_TABLE_NAME, "_id = ? ", new String[]{convertedId});
+    }
 }
