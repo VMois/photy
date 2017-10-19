@@ -1,4 +1,4 @@
-package com.example.a4ia1.photosmanager.Helpers;
+package com.example.a4ia1.photosmanager.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.example.a4ia1.photosmanager.Helpers.Note;
 import com.example.a4ia1.photosmanager.R;
 import java.util.ArrayList;
 

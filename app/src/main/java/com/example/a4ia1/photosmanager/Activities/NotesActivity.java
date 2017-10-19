@@ -7,7 +7,7 @@ import android.widget.ListView;
 import com.example.a4ia1.photosmanager.Helpers.Constants;
 import com.example.a4ia1.photosmanager.Helpers.DatabaseManager;
 import com.example.a4ia1.photosmanager.Helpers.Note;
-import com.example.a4ia1.photosmanager.Helpers.NotesArrayAdapter;
+import com.example.a4ia1.photosmanager.Adapters.NotesArrayAdapter;
 import com.example.a4ia1.photosmanager.R;
 
 import java.util.ArrayList;
