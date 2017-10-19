@@ -29,6 +29,7 @@ public class CustomImageView extends ImageView implements View.OnLongClickListen
     private EditText textEditText;
     private TextView titleTextView;
     private TextView textTextView;
+    private TextView colorTextView;
 
     public CustomImageView(Context context, File CurrentImage, DatabaseManager Db) {
         super(context);
@@ -65,6 +66,7 @@ public class CustomImageView extends ImageView implements View.OnLongClickListen
         textTextView = customView.findViewById(R.id.text_textview);
         titleEditText = customView.findViewById(R.id.title_edit_text);
         textEditText = customView.findViewById(R.id.text_edit_text);
+        colorTextView = customView.findViewById(R.id.color_textview);
 
         // set base color (blue)
         int baseColor = ((ColorDrawable) btBlueColor.getBackground()).getColor();
@@ -116,6 +118,7 @@ public class CustomImageView extends ImageView implements View.OnLongClickListen
         titleEditText.setTextColor(color);
         titleTextView.setTextColor(color);
         textTextView.setTextColor(color);
+        colorTextView.setTextColor(color);
 
         // convert color from int format to HEX -> to save in db
         chosenColor = String.format("#%06X", (0xFFFFFF & color));

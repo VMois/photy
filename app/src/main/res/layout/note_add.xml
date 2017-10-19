@@ -25,6 +25,12 @@
         android:layout_weight="1"
         android:layout_height="match_parent"
         android:id="@+id/text_edit_text"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="@string/notes_dialog_color"
+        android:id="@+id/color_textview"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_weight="1"
