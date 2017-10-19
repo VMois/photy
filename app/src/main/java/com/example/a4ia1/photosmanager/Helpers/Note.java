@@ -4,12 +4,14 @@ package com.example.a4ia1.photosmanager.Helpers;
  * Created by 4ia1 on 2017-10-05.
  */
 public class Note {
+    private int id;
     private String imagePath;
     private String title;
     private String text;
     private String color;
 
-    public Note(String Title, String Text, String Color, String ImagePath) {
+    public Note(int Id, String Title, String Text, String Color, String ImagePath) {
+        this.id = Id;
         this.imagePath = ImagePath;
         this.title = Title;
         this.text = Text;
@@ -30,5 +32,9 @@ public class Note {
 
     public String getImagePath() {
         return this.imagePath;
+    }
+
+    public int getId() {
+        return this.id;
     }
 }

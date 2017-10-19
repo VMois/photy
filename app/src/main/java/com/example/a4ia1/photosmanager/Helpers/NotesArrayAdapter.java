@@ -35,11 +35,9 @@ public class NotesArrayAdapter extends ArrayAdapter {
         // set number of notes in list
         TextView idTextView = convertView.findViewById(R.id.note_id_textview);
 
-        // add position (start from 1)
-        idTextView.setText(String.valueOf(position + 1));
-
         // get current Note object
         Note currentNote = this._list.get(position);
+        idTextView.setText(String.valueOf(currentNote.getId()));
 
         // cast is not needed here :)
         TextView titleTextView = convertView.findViewById(R.id.note_title_textview);

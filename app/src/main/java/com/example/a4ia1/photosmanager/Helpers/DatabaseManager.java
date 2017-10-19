@@ -61,6 +61,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         // iterate over results
         while(result.moveToNext()){
             Note newNote = new Note(
+                    result.getInt(result.getColumnIndex("_id")),
                     result.getString(result.getColumnIndex("title")),
                     result.getString(result.getColumnIndex("text")),
                     result.getString(result.getColumnIndex("color")),
