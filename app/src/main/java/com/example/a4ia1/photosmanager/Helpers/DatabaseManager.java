@@ -87,4 +87,28 @@ public class DatabaseManager extends SQLiteOpenHelper {
         contentValues.put("color", color);
         return db.update(Constants.NOTES_TABLE_NAME, contentValues, "_id = ? ", new String[]{convertedId});
     }
+
+    public Note getNoteById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String convertedId = String.valueOf(id);
+        String query = "SELECT * FROM " + Constants.NOTES_TABLE_NAME + " WHERE _id = " + convertedId;
+        Cursor result = db.rawQuery(query, null);
+
+        // return empty Note with id -1 to show that
+        // no Note with id not found
+        Note objectToReturn = new Note(
+                -1, "","","",""
+        );
+        
+        if (result.moveToFirst()) {
+            objectToReturn = new Note(
+                    result.getInt(result.getColumnIndex("_id")),
+                    result.getString(result.getColumnIndex("title")),
+                    result.getString(result.getColumnIndex("text")),
+                    result.getString(result.getColumnIndex("color")),
+                    result.getString(result.getColumnIndex("image_path"))
+            );
+        }
+        return objectToReturn;
+    }
 }
