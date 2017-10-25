@@ -47,5 +47,10 @@
             android:background="@color/noteGreenColor"
             android:id="@+id/noteGreenButton"/>
     </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/noteEditSaveButton"
+        android:text="@string/note_edit_save_button_text"/>
 
 </LinearLayout>
