@@ -77,4 +77,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
         String convertedId = String.valueOf(id);
         return db.delete(Constants.NOTES_TABLE_NAME, "_id = ? ", new String[]{convertedId});
     }
+
+    public int updateNote(int id, String title, String text, String color) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String convertedId = String.valueOf(id);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("title", title);
+        contentValues.put("text", text);
+        contentValues.put("color", color);
+        return db.update(Constants.NOTES_TABLE_NAME, contentValues, "_id = ? ", new String[]{convertedId});
+    }
 }
