@@ -78,13 +78,13 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return db.delete(Constants.NOTES_TABLE_NAME, "_id = ? ", new String[]{convertedId});
     }
 
-    public int updateNote(int id, String title, String text, String color) {
+    public int updateNote(int id, Note note) {
         SQLiteDatabase db = this.getWritableDatabase();
         String convertedId = String.valueOf(id);
         ContentValues contentValues = new ContentValues();
-        contentValues.put("title", title);
-        contentValues.put("text", text);
-        contentValues.put("color", color);
+        contentValues.put("title", note.getTitle());
+        contentValues.put("text", note.getText());
+        contentValues.put("color", note.getColor());
         return db.update(Constants.NOTES_TABLE_NAME, contentValues, "_id = ? ", new String[]{convertedId});
     }
 
@@ -99,7 +99,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         Note objectToReturn = new Note(
                 -1, "","","",""
         );
-        
+
         if (result.moveToFirst()) {
             objectToReturn = new Note(
                     result.getInt(result.getColumnIndex("_id")),
