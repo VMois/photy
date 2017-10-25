@@ -16,9 +16,7 @@ import com.example.a4ia1.photosmanager.Helpers.Note;
 import com.example.a4ia1.photosmanager.Adapters.NotesArrayAdapter;
 import com.example.a4ia1.photosmanager.R;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class NotesActivity extends AppCompatActivity {
     private ListView listView;
@@ -54,7 +52,7 @@ public class NotesActivity extends AppCompatActivity {
                 return;
             case 1:
                 Intent intent = new Intent(NotesActivity.this, NoteEditActivity.class);
-                intent.putExtra("note", selectedNote);
+                intent.putExtra("note_id", selectedNote.getId());
                 startActivity(intent);
                 return;
             default:
