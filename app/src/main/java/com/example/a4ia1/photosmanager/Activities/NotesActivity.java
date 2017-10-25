@@ -38,7 +38,6 @@ public class NotesActivity extends AppCompatActivity {
                 null,
                 1
         );
-        renderNotesList();
     }
 
     // Positions
@@ -87,6 +86,12 @@ public class NotesActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        renderNotesList();
     }
 
     @Override

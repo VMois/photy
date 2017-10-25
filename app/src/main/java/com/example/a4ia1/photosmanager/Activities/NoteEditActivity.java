@@ -70,7 +70,6 @@ public class NoteEditActivity extends AppCompatActivity {
                 currentNote.getImagePath()
         );
         db.updateNote(newNote);
-        Intent intent = new Intent(getApplicationContext(), NotesActivity.class);
-        startActivity(intent);
+        this.finish();
     }
 }
