@@ -17,6 +17,8 @@ import com.example.a4ia1.photosmanager.Adapters.NotesArrayAdapter;
 import com.example.a4ia1.photosmanager.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class NotesActivity extends AppCompatActivity {
     private ListView listView;
@@ -43,24 +45,56 @@ public class NotesActivity extends AppCompatActivity {
     // Positions
     // 0 - delete note
     // 1 - edit note (open NoteEditActivity)
+    // 2 - sort by title
+    // 3 - sort by color
+    // 4 - sort by image path
     private void handleNoteOption(int which, Note selectedNote) {
         switch (which) {
             case 0:
                 db.deleteNote(selectedNote.getId());
-                renderNotesList();
+                renderNotesList(true);
                 return;
             case 1:
                 Intent intent = new Intent(NotesActivity.this, NoteEditActivity.class);
                 intent.putExtra("note_id", selectedNote.getId());
                 startActivity(intent);
                 return;
+            case 2:
+                Collections.sort(notesList, new Comparator<Note>() {
+                    @Override
+                    public int compare(Note a, Note b) {
+                        return a.getTitle().compareTo(b.getTitle());
+                    }
+                });
+                renderNotesList(false);
+                return;
+            case 3:
+                Collections.sort(notesList, new Comparator<Note>() {
+                    @Override
+                    public int compare(Note a, Note b) {
+                        return a.getColor().compareTo(b.getColor());
+                    }
+                });
+                renderNotesList(false);
+                return;
+            case 4:
+                Collections.sort(notesList, new Comparator<Note>() {
+                    @Override
+                    public int compare(Note a, Note b) {
+                        return a.getImagePath().compareTo(b.getImagePath());
+                    }
+                });
+                renderNotesList(false);
+                return;
             default:
         }
     }
 
-    private void renderNotesList() {
+    private void renderNotesList(boolean update) {
         // get all notes from database
-        notesList = db.getAllNotes();
+        if (update) {
+            notesList = db.getAllNotes();
+        }
 
         // create our custom adapter
         NotesArrayAdapter adapter = new NotesArrayAdapter(
@@ -91,7 +125,7 @@ public class NotesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        renderNotesList();
+        renderNotesList(true);
     }
 
     @Override
