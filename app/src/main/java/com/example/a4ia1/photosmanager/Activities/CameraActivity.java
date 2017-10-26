@@ -3,16 +3,19 @@ package com.example.a4ia1.photosmanager.Activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.hardware.Camera;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.a4ia1.photosmanager.Helpers.CameraPreview;
+import com.example.a4ia1.photosmanager.Helpers.Circle;
 import com.example.a4ia1.photosmanager.Helpers.Constants;
 import com.example.a4ia1.photosmanager.R;
 
@@ -118,6 +121,13 @@ public class CameraActivity extends AppCompatActivity {
                 exposureCompensationButtonClick(v);
             }
         });
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        Circle mainCircle = new Circle(getApplicationContext(), size);
+        cameraFrameLayout.addView(mainCircle);
     }
 
     @Override
