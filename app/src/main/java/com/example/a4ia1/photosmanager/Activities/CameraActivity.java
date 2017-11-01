@@ -138,7 +138,7 @@ public class CameraActivity extends AppCompatActivity implements SensorEventList
                 exposureCompensationButtonClick(v);
             }
         });
-        
+
         miniatures = new ArrayList<>();
         Display display = getWindowManager().getDefaultDisplay();
         size = new Point();
@@ -385,6 +385,11 @@ public class CameraActivity extends AppCompatActivity implements SensorEventList
             ObjectAnimator.ofFloat(exposureCompensationButton, View.ROTATION, angle)
                     .setDuration(300)
                     .start();
+            for (int i = 0; i < miniatures.size(); i++) {
+                ObjectAnimator.ofFloat(miniatures.get(i), View.ROTATION, angle)
+                        .setDuration(300)
+                        .start();
+            }
         }
     }
 
