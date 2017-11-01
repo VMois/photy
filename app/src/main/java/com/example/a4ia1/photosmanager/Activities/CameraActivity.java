@@ -308,12 +308,7 @@ public class CameraActivity extends AppCompatActivity {
                     radius / 2,
                     radius / 2);
             miniatures.add(min);
-            // reDrawMiniatures();
 
-
-            // min.setX(radius - radius / 4);
-            // min.setY(centerY - radius / 4);
-            cameraFrameLayout.addView(min);
             reDrawMiniatures();
             // show button to save photo
             savePhotoButton.setVisibility(View.VISIBLE);
@@ -327,8 +322,26 @@ public class CameraActivity extends AppCompatActivity {
         for (int i = 0; i < miniatures.size(); i++) {
             cameraFrameLayout.removeView(miniatures.get(i));
         }
-        
-        float a = 360 / miniatures.size();
-        cameraFrameLayout.removeView(miniatures.get(0));
+
+        // set alpha
+        double a = 0;
+
+        // set default alpha step for this count of miniatures
+        double step = 360 / miniatures.size();
+
+        // add miniatures
+        for (int i = 0; i < miniatures.size(); i++) {
+            double y = radius * Math.sin(Math.toRadians(a));
+            double x = radius * Math.cos(Math.toRadians(a));
+            Miniature temp = miniatures.get(i);
+
+            temp.setX(centerX - (float) x - radius / 4);
+            temp.setY(centerY - (float) y - radius / 4);
+
+            cameraFrameLayout.addView(temp);
+
+            // apply step to alpha
+            a += step;
+        }
     }
 }
