@@ -13,11 +13,8 @@ import java.util.ArrayList;
  */
 public class DatabaseManager extends SQLiteOpenHelper {
 
-    private Constants constants;
-
     public DatabaseManager(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        constants = new Constants();
     }
 
     @Override
