@@ -1,10 +1,15 @@
 package com.example.a4ia1.photosmanager.Activities;
 
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.hardware.Camera;
@@ -30,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CameraActivity extends AppCompatActivity {
+public class CameraActivity extends AppCompatActivity implements SensorEventListener {
 
     private Camera camera;
     private int cameraId = -1;
@@ -54,8 +59,10 @@ public class CameraActivity extends AppCompatActivity {
     private int radius;
     private int centerX;
     private int centerY;
-    private int miniaturesCount;
     private List<Miniature> miniatures;
+
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,8 +138,7 @@ public class CameraActivity extends AppCompatActivity {
                 exposureCompensationButtonClick(v);
             }
         });
-
-        miniaturesCount = 0;
+        
         miniatures = new ArrayList<>();
         Display display = getWindowManager().getDefaultDisplay();
         size = new Point();
@@ -142,6 +148,9 @@ public class CameraActivity extends AppCompatActivity {
         radius = centerX / 2;
         Circle mainCircle = new Circle(getApplicationContext(), size, radius);
         cameraFrameLayout.addView(mainCircle);
+
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
 
     @Override
@@ -154,6 +163,7 @@ public class CameraActivity extends AppCompatActivity {
             camera.release();
             camera = null;
         }
+        sensorManager.unregisterListener(this);
     }
 
     @Override
@@ -163,6 +173,7 @@ public class CameraActivity extends AppCompatActivity {
             initCamera();
             initPreview();
         }
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     private int getCameraId() {
@@ -343,5 +354,42 @@ public class CameraActivity extends AppCompatActivity {
             // apply step to alpha
             a += step;
         }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+
+            float y = sensorEvent.values[0];
+            int angle = 0;
+            if (y > 7) {
+                angle = 90;
+            } else if (y < -7) {
+                angle = -90;
+            }
+            ObjectAnimator.ofFloat(takePhotoButton, View.ROTATION, angle)
+                    .setDuration(300)
+                    .start();
+            ObjectAnimator.ofFloat(savePhotoButton, View.ROTATION, angle)
+                    .setDuration(300)
+                    .start();
+            ObjectAnimator.ofFloat(whiteBalanceButton, View.ROTATION, angle)
+                    .setDuration(300)
+                    .start();
+            ObjectAnimator.ofFloat(picturesSizesButton, View.ROTATION, angle)
+                    .setDuration(300)
+                    .start();
+            ObjectAnimator.ofFloat(supportedColorEffectsButton, View.ROTATION, angle)
+                    .setDuration(300)
+                    .start();
+            ObjectAnimator.ofFloat(exposureCompensationButton, View.ROTATION, angle)
+                    .setDuration(300)
+                    .start();
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
     }
 }
