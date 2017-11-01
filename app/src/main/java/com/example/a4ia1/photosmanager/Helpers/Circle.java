@@ -12,9 +12,11 @@ import android.view.View;
  */
 public class Circle extends View {
     private Point size;
-    public Circle(Context context, Point size) {
+    private int radius;
+    public Circle(Context context, Point size, int radius) {
         super(context);
         this.size = size;
+        this.radius = radius;
     }
 
     @Override
@@ -25,6 +27,6 @@ public class Circle extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(10);
         paint.setColor(Color.RED);
-        canvas.drawCircle(size.x / 2, size.y / 2, 200, paint);
+        canvas.drawCircle(size.x / 2, size.y / 2, radius, paint);
     }
 }

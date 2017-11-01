@@ -3,6 +3,7 @@ package com.example.a4ia1.photosmanager.Activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.widget.ImageView;
 import com.example.a4ia1.photosmanager.Helpers.CameraPreview;
 import com.example.a4ia1.photosmanager.Helpers.Circle;
 import com.example.a4ia1.photosmanager.Helpers.Constants;
+import com.example.a4ia1.photosmanager.Helpers.ImageTools;
+import com.example.a4ia1.photosmanager.Helpers.Miniature;
 import com.example.a4ia1.photosmanager.R;
 
 import java.io.File;
@@ -46,6 +49,13 @@ public class CameraActivity extends AppCompatActivity {
     private List<String> picturesSizesOptionsStrings;
     private List<String> exposureCompensationList;
     private byte[] photoData;
+
+    private Point size;
+    private int radius;
+    private int centerX;
+    private int centerY;
+    private int miniaturesCount;
+    private List<Miniature> miniatures;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,11 +132,15 @@ public class CameraActivity extends AppCompatActivity {
             }
         });
 
+        miniaturesCount = 0;
+        miniatures = new ArrayList<>();
         Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
+        size = new Point();
         display.getSize(size);
-
-        Circle mainCircle = new Circle(getApplicationContext(), size);
+        centerX = size.x / 2;
+        centerY = size.y / 2;
+        radius = centerX / 2;
+        Circle mainCircle = new Circle(getApplicationContext(), size, radius);
         cameraFrameLayout.addView(mainCircle);
     }
 
@@ -288,9 +302,33 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
             photoData = data;
+            Bitmap convertedBitmap = ImageTools.fromByteToBitmap(photoData);
+            Miniature min = new Miniature(getApplicationContext(),
+                    convertedBitmap,
+                    radius / 2,
+                    radius / 2);
+            miniatures.add(min);
+            // reDrawMiniatures();
+
+
+            // min.setX(radius - radius / 4);
+            // min.setY(centerY - radius / 4);
+            cameraFrameLayout.addView(min);
+            reDrawMiniatures();
             // show button to save photo
             savePhotoButton.setVisibility(View.VISIBLE);
+
             camera.startPreview();
         }
     };
+
+    private void reDrawMiniatures() {
+        // remove all miniatures
+        for (int i = 0; i < miniatures.size(); i++) {
+            cameraFrameLayout.removeView(miniatures.get(i));
+        }
+        
+        float a = 360 / miniatures.size();
+        cameraFrameLayout.removeView(miniatures.get(0));
+    }
 }
