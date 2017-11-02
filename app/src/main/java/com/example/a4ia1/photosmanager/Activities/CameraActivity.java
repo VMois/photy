@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.Display;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -35,7 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CameraActivity extends AppCompatActivity implements SensorEventListener {
+public class CameraActivity extends AppCompatActivity {
 
     private Camera camera;
     private int cameraId = -1;
@@ -61,9 +62,8 @@ public class CameraActivity extends AppCompatActivity implements SensorEventList
     private int centerY;
     private List<Miniature> miniatures;
 
-    private SensorManager sensorManager;
-    private Sensor accelerometer;
-
+    private OrientationEventListener orientationEventListener;
+    private int angle = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,8 +149,40 @@ public class CameraActivity extends AppCompatActivity implements SensorEventList
         Circle mainCircle = new Circle(getApplicationContext(), size, radius);
         cameraFrameLayout.addView(mainCircle);
 
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        orientationEventListener = new OrientationEventListener(getApplicationContext()) {
+            @Override
+            public void onOrientationChanged(int o_angle) {
+                if (o_angle >= 0 && o_angle <= 63) angle = 0;
+                if (o_angle > 70 && o_angle <= 180) angle = -90;
+                if (o_angle > 185 && o_angle <= 298) angle = 90;
+                if (o_angle > 305 && o_angle <= 360) angle = 0;
+
+                int animationSpeed = 100;
+                ObjectAnimator.ofFloat(takePhotoButton, View.ROTATION, angle)
+                        .setDuration(animationSpeed)
+                        .start();
+                ObjectAnimator.ofFloat(savePhotoButton, View.ROTATION, angle)
+                        .setDuration(animationSpeed)
+                        .start();
+                ObjectAnimator.ofFloat(whiteBalanceButton, View.ROTATION, angle)
+                        .setDuration(animationSpeed)
+                        .start();
+                ObjectAnimator.ofFloat(picturesSizesButton, View.ROTATION, angle)
+                        .setDuration(animationSpeed)
+                        .start();
+                ObjectAnimator.ofFloat(supportedColorEffectsButton, View.ROTATION, angle)
+                        .setDuration(animationSpeed)
+                        .start();
+                ObjectAnimator.ofFloat(exposureCompensationButton, View.ROTATION, angle)
+                        .setDuration(animationSpeed)
+                        .start();
+                for (int i = 0; i < miniatures.size(); i++) {
+                    ObjectAnimator.ofFloat(miniatures.get(i), View.ROTATION, angle)
+                            .setDuration(animationSpeed)
+                            .start();
+                }
+            }
+        };
     }
 
     @Override
@@ -163,7 +195,7 @@ public class CameraActivity extends AppCompatActivity implements SensorEventList
             camera.release();
             camera = null;
         }
-        sensorManager.unregisterListener(this);
+        orientationEventListener.disable();
     }
 
     @Override
@@ -173,7 +205,11 @@ public class CameraActivity extends AppCompatActivity implements SensorEventList
             initCamera();
             initPreview();
         }
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        if (orientationEventListener.canDetectOrientation()) {
+            orientationEventListener.enable();
+        } else {
+        }
+
     }
 
     private int getCameraId() {
@@ -354,47 +390,5 @@ public class CameraActivity extends AppCompatActivity implements SensorEventList
             // apply step to alpha
             a += step;
         }
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
-        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-
-            float y = sensorEvent.values[0];
-            int angle = 0;
-            if (y > 7) {
-                angle = 90;
-            } else if (y < -7) {
-                angle = -90;
-            }
-            ObjectAnimator.ofFloat(takePhotoButton, View.ROTATION, angle)
-                    .setDuration(300)
-                    .start();
-            ObjectAnimator.ofFloat(savePhotoButton, View.ROTATION, angle)
-                    .setDuration(300)
-                    .start();
-            ObjectAnimator.ofFloat(whiteBalanceButton, View.ROTATION, angle)
-                    .setDuration(300)
-                    .start();
-            ObjectAnimator.ofFloat(picturesSizesButton, View.ROTATION, angle)
-                    .setDuration(300)
-                    .start();
-            ObjectAnimator.ofFloat(supportedColorEffectsButton, View.ROTATION, angle)
-                    .setDuration(300)
-                    .start();
-            ObjectAnimator.ofFloat(exposureCompensationButton, View.ROTATION, angle)
-                    .setDuration(300)
-                    .start();
-            for (int i = 0; i < miniatures.size(); i++) {
-                ObjectAnimator.ofFloat(miniatures.get(i), View.ROTATION, angle)
-                        .setDuration(300)
-                        .start();
-            }
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-
     }
 }
