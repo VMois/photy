@@ -138,19 +138,24 @@ public class CameraActivity extends AppCompatActivity {
 
                     // SAVE LAST
                     case 1:
-                        int tempId = miniatures.size() - 1;
-                        Miniature temp = miniatures.get(tempId);
-                        savePhoto(temp.getData(), tempId);
-                        // also possibly to use, somethings like that
-                        // savePhoto(photoData, miniatures.size() - 1);
+                        if (miniatures.size() > 0) {
+                            int tempId = miniatures.size() - 1;
+                            Miniature temp = miniatures.get(tempId);
+                            savePhoto(temp.getData(), tempId, false);
+                            // also possibly to use, somethings like that
+                            // savePhoto(photoData, miniatures.size() - 1);
+                        }
                         break;
 
                     // SAVE ALL
                     case 2:
+                        byte[] empty = {};
+                        savePhoto(empty, -1, true);
                         break;
 
                     // DELETE ALL
                     case 3:
+                        deleteAll();
                         break;
                 }
             }
@@ -298,7 +303,7 @@ public class CameraActivity extends AppCompatActivity {
         camera.takePicture(null, null, camPictureCallback);
     }
 
-    public void savePhoto(final byte[] data, final int id) {
+    public void savePhoto(final byte[] data, final int id, final boolean saveAll) {
         File mainFolderFile = constants.getMainFolderFile();
 
         AlertDialog.Builder alert = new AlertDialog.Builder(CameraActivity.this);
@@ -315,7 +320,15 @@ public class CameraActivity extends AppCompatActivity {
         final String[] folderArray = foldersList.toArray(new String[0]);
         alert.setItems(folderArray, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                saveImage(folderArray[which], data, id);
+                if (!saveAll) {
+                    saveImage(folderArray[which], data, id);
+                    removeMiniature(id);
+                } else {
+                    for (Miniature temp : miniatures) {
+                        saveImage(folderArray[which], temp.getData(), temp.getId());
+                    }
+                    deleteAll();
+                }
             }
         });
         alert.show();
@@ -333,7 +346,13 @@ public class CameraActivity extends AppCompatActivity {
         String pathToSave = mainFolderFile.getAbsolutePath()
                 + "/" + folderToSave + "/" + newPhotoName;
         ImageTools.saveOnDisk(pathToSave, data);
-        removeMiniature(id);
+    }
+
+    private void deleteAll() {
+        for (int k = 0; k < miniatures.size(); k++) {
+            cameraFrameLayout.removeView(miniatures.get(k));
+        }
+        miniatures = new ArrayList<>();
     }
 
     private void whiteBalanceButtonClick(View v) {
