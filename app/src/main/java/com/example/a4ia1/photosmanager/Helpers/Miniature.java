@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -31,8 +30,9 @@ public class Miniature extends ImageView implements View.OnLongClickListener {
         this.height = height;
         this.activity = activity;
         bitmap = ImageTools.scaleBitmap(bitmap, width, height);
+        Bitmap convertedBitmap = ImageTools.rotate(bitmap, -90);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
-        this.setImageBitmap(bitmap);
+        this.setImageBitmap(convertedBitmap);
         this.setLayoutParams(params);
 
         setOnLongClickListener(this);
@@ -58,10 +58,13 @@ public class Miniature extends ImageView implements View.OnLongClickListener {
         alert.setItems(Constants.MINIATURES_OPTIONS, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
+                    // Show
                     case 0:
                         break;
+                    // Delete
                     case 1:
                         break;
+                    // Save
                     case 2:
                         break;
                 }

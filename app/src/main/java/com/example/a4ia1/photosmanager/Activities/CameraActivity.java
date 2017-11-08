@@ -336,7 +336,6 @@ public class CameraActivity extends AppCompatActivity {
         public void onPictureTaken(byte[] data, Camera camera) {
             photoData = data;
             Bitmap convertedBitmap = ImageTools.fromByteToBitmap(photoData);
-            convertedBitmap = ImageTools.rotate(convertedBitmap, -90);
 
             Miniature min = new Miniature(getApplicationContext(),
                     convertedBitmap,
