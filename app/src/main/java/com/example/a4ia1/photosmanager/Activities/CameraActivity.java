@@ -6,10 +6,6 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.hardware.Camera;
@@ -350,6 +346,8 @@ public class CameraActivity extends AppCompatActivity {
         public void onPictureTaken(byte[] data, Camera camera) {
             photoData = data;
             Bitmap convertedBitmap = ImageTools.fromByteToBitmap(photoData);
+            convertedBitmap = ImageTools.rotate(convertedBitmap, -90);
+
             Miniature min = new Miniature(getApplicationContext(),
                     convertedBitmap,
                     radius / 2,
