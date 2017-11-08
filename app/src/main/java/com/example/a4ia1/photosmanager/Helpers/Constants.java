@@ -20,6 +20,12 @@ public class Constants {
             "Sort by image path"
     };
 
+    public final static String[] MINIATURES_OPTIONS = {
+            "Show",
+            "Delete",
+            "Save"
+    };
+
     public Constants() {
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         mainFolderFile = new File(pictureFolder, MAIN_FOLDER_NAME);

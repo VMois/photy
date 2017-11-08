@@ -18,4 +18,5 @@
     <string name="notes_dialog_color">Colors</string>
     <string name="note_options_dialog_title">Actions</string>
     <string name="note_edit_save_button_text">Save note</string>
+    <string name="miniature_options_alert_title">Choose action for miniature</string>
 </resources>

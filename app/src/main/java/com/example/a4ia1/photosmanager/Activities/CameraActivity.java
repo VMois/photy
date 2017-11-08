@@ -353,7 +353,8 @@ public class CameraActivity extends AppCompatActivity {
             Miniature min = new Miniature(getApplicationContext(),
                     convertedBitmap,
                     radius / 2,
-                    radius / 2);
+                    radius / 2,
+                    CameraActivity.this);
             miniatures.add(min);
 
             reDrawMiniatures();
