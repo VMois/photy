@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.AdapterView;
@@ -417,6 +418,20 @@ public class CameraActivity extends AppCompatActivity {
                     radius / 2,
                     radius / 2,
                     CameraActivity.this);
+            min.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    switch(motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            break;
+                        case MotionEvent.ACTION_MOVE:
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            break;
+                    }
+                    return false;
+                }
+            });
             miniatures.add(min);
 
             reDrawMiniatures();
