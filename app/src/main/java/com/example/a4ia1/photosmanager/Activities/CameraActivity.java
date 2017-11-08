@@ -11,9 +11,12 @@ import android.hardware.Camera;
 import android.view.Display;
 import android.view.OrientationEventListener;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.example.a4ia1.photosmanager.Helpers.CameraPreview;
 import com.example.a4ia1.photosmanager.Helpers.Circle;
@@ -35,7 +38,8 @@ public class CameraActivity extends AppCompatActivity {
     private CameraPreview cameraPreview;
     private FrameLayout cameraFrameLayout;
     private ImageView takePhotoButton;
-    public ImageView savePhotoButton;
+    // public ImageView savePhotoButton;
+    private Spinner spinner;
     private Button whiteBalanceButton;
     private Button picturesSizesButton;
     private Button supportedColorEffectsButton;
@@ -88,7 +92,7 @@ public class CameraActivity extends AppCompatActivity {
         }
 
         takePhotoButton = (ImageView) findViewById(R.id.take_photo_button);
-        savePhotoButton = (ImageView) findViewById(R.id.save_photo_button);
+        // savePhotoButton = (ImageView) findViewById(R.id.save_photo_button);
         whiteBalanceButton = (Button) findViewById(R.id.white_balance_button);
         picturesSizesButton = (Button) findViewById(R.id.images_sizes_button);
         supportedColorEffectsButton = (Button) findViewById(R.id.color_effects_button);
@@ -109,6 +113,27 @@ public class CameraActivity extends AppCompatActivity {
             }
         });
         */
+
+        spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                CameraActivity.this,
+                R.layout.spinner_row_layout,
+                R.id.row_layout_text,
+                Constants.SPINNER_OPTIONS);
+
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         whiteBalanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,9 +179,6 @@ public class CameraActivity extends AppCompatActivity {
 
                 int animationSpeed = 100;
                 ObjectAnimator.ofFloat(takePhotoButton, View.ROTATION, angle)
-                        .setDuration(animationSpeed)
-                        .start();
-                ObjectAnimator.ofFloat(savePhotoButton, View.ROTATION, angle)
                         .setDuration(animationSpeed)
                         .start();
                 ObjectAnimator.ofFloat(whiteBalanceButton, View.ROTATION, angle)
@@ -249,7 +271,7 @@ public class CameraActivity extends AppCompatActivity {
         camera.takePicture(null, null, camPictureCallback);
     }
 
-    public void savePhoto(View v, final byte[] data, final int id) {
+    public void savePhoto(final byte[] data, final int id) {
         Constants constants = new Constants();
         final File mainFolderFile = constants.getMainFolderFile();
         SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");

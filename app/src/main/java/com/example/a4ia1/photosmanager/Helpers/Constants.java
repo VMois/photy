@@ -19,11 +19,15 @@ public class Constants {
             "Sort by color",
             "Sort by image path"
     };
-
     public final static String[] MINIATURES_OPTIONS = {
             "Show",
             "Delete",
             "Save"
+    };
+    public final static String[] SPINNER_OPTIONS = {
+            "[Empty]", // for test purpose
+            "Save all",
+            "Delete all"
     };
 
     public Constants() {
