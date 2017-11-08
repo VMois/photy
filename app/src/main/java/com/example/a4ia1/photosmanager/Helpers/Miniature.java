@@ -93,4 +93,8 @@ public class Miniature extends ImageView implements View.OnLongClickListener {
     public void setId(int i) {
         this.id = i;
     }
+
+    public byte[] getData() {
+        return this.data;
+    }
 }

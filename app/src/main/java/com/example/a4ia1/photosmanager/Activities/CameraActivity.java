@@ -5,9 +5,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.hardware.Camera;
+import android.util.Log;
 import android.view.Display;
 import android.view.OrientationEventListener;
 import android.view.View;
@@ -30,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -51,6 +54,7 @@ public class CameraActivity extends AppCompatActivity {
     private List<String> picturesSizesOptionsStrings;
     private List<String> exposureCompensationList;
     private byte[] photoData;
+    private Constants constants;
 
     private Point size;
     private int radius;
@@ -83,6 +87,8 @@ public class CameraActivity extends AppCompatActivity {
         for(int i = minExp; i <= maxExp; i++ ) {
             exposureCompensationList.add(String.valueOf(i));
         }
+
+        constants = new Constants();
 
         picturesSizesOptionsStrings = new ArrayList<>();
         for(Camera.Size size: picturesSizesOptions) {
@@ -125,7 +131,28 @@ public class CameraActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch(i) {
+                    case 0:
+                        Log.d("Spinner Click", "Click on 0");
+                        break;
 
+                    // SAVE LAST
+                    case 1:
+                        int tempId = miniatures.size() - 1;
+                        Miniature temp = miniatures.get(tempId);
+                        savePhoto(temp.getData(), tempId);
+                        // also possibly to use, somethings like that
+                        // savePhoto(photoData, miniatures.size() - 1);
+                        break;
+
+                    // SAVE ALL
+                    case 2:
+                        break;
+
+                    // DELETE ALL
+                    case 3:
+                        break;
+                }
             }
 
             @Override
@@ -272,10 +299,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     public void savePhoto(final byte[] data, final int id) {
-        Constants constants = new Constants();
-        final File mainFolderFile = constants.getMainFolderFile();
-        SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        final String newPhotoName = dFormat.format(new Date());
+        File mainFolderFile = constants.getMainFolderFile();
 
         AlertDialog.Builder alert = new AlertDialog.Builder(CameraActivity.this);
         String title = getString(R.string.folder_choose);
@@ -291,13 +315,25 @@ public class CameraActivity extends AppCompatActivity {
         final String[] folderArray = foldersList.toArray(new String[0]);
         alert.setItems(folderArray, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                String pathToSave = mainFolderFile.getAbsolutePath()
-                        + "/" + folderArray[which] + "/" + newPhotoName;
-                ImageTools.saveOnDisk(pathToSave, data);
-                removeMiniature(id);
+                saveImage(folderArray[which], data, id);
             }
         });
         alert.show();
+    }
+
+    private void saveImage(String folderToSave, byte[] data, int id) {
+        Random rand = new Random();
+
+        File mainFolderFile = constants.getMainFolderFile();
+        SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+
+        int randomSuffix = rand.nextInt(1000) + 100;
+        String newPhotoName = dFormat.format(new Date()) + "" + randomSuffix;
+
+        String pathToSave = mainFolderFile.getAbsolutePath()
+                + "/" + folderToSave + "/" + newPhotoName;
+        ImageTools.saveOnDisk(pathToSave, data);
+        removeMiniature(id);
     }
 
     private void whiteBalanceButtonClick(View v) {

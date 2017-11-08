@@ -26,6 +26,7 @@ public class Constants {
     };
     public final static String[] SPINNER_OPTIONS = {
             "[Empty]", // for test purpose
+            "Save last",
             "Save all",
             "Delete all"
     };
