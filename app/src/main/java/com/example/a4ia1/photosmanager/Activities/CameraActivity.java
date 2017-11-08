@@ -100,12 +100,15 @@ public class CameraActivity extends AppCompatActivity {
                 takePhoto(v);
             }
         });
+        // For now is unused, could be deleted in future
+        /*
         savePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 savePhoto(v, photoData);
             }
         });
+        */
         whiteBalanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -246,7 +249,7 @@ public class CameraActivity extends AppCompatActivity {
         camera.takePicture(null, null, camPictureCallback);
     }
 
-    public void savePhoto(View v, final byte[] data) {
+    public void savePhoto(View v, final byte[] data, final int id) {
         Constants constants = new Constants();
         final File mainFolderFile = constants.getMainFolderFile();
         SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -268,7 +271,8 @@ public class CameraActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String pathToSave = mainFolderFile.getAbsolutePath()
                         + "/" + folderArray[which] + "/" + newPhotoName;
-                savePhotoOnDisk(pathToSave, data);
+                ImageTools.saveOnDisk(pathToSave, data);
+                removeMiniature(id);
             }
         });
         alert.show();
@@ -326,10 +330,6 @@ public class CameraActivity extends AppCompatActivity {
         alert.show();
     }
 
-    private void savePhotoOnDisk(String pathToSave, byte[] data) {
-        ImageTools.saveOnDisk(pathToSave, data);
-    }
-
     private Camera.PictureCallback camPictureCallback = new Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
@@ -343,8 +343,10 @@ public class CameraActivity extends AppCompatActivity {
             miniatures.add(min);
 
             reDrawMiniatures();
+
+            // disable savePhotoButton for now
             // show button to save photo
-            savePhotoButton.setVisibility(View.VISIBLE);
+            // savePhotoButton.setVisibility(View.VISIBLE);
 
             camera.startPreview();
         }

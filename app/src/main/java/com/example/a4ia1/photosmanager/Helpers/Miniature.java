@@ -81,7 +81,7 @@ public class Miniature extends ImageView implements View.OnLongClickListener {
                         break;
                     // Save
                     case 2:
-                        cameraActivity.savePhoto(cameraActivity.savePhotoButton, data);
+                        cameraActivity.savePhoto(cameraActivity.savePhotoButton, data, id);
                         break;
                 }
             }
