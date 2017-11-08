@@ -9,7 +9,6 @@ import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.hardware.Camera;
-import android.util.Log;
 import android.view.Display;
 import android.view.OrientationEventListener;
 import android.view.View;
@@ -25,8 +24,6 @@ import com.example.a4ia1.photosmanager.Helpers.Miniature;
 import com.example.a4ia1.photosmanager.R;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -331,14 +328,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void savePhotoOnDisk(String pathToSave) {
-        try {
-            FileOutputStream fs = new FileOutputStream(pathToSave);
-            fs.write(photoData);
-            fs.close();
-            savePhotoButton.setVisibility(View.INVISIBLE);
-        } catch (IOException err) {
-            Log.e("[!] Bad photo save", err.toString());
-        }
+        ImageTools.saveOnDisk(pathToSave, photoData);
     }
 
     private Camera.PictureCallback camPictureCallback = new Camera.PictureCallback() {
