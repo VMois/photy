@@ -26,7 +26,6 @@ public class ImageTools {
                 originalBitmap.getWidth(),
                 originalBitmap.getHeight(), matrix, true);
     }
-
     public static void saveOnDisk(String path, byte[] data) {
         // create bitmap from byte array
         Bitmap bitmapToSave = BitmapFactory.decodeByteArray(data, 0, data.length);

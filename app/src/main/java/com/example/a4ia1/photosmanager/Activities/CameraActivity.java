@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,7 +35,7 @@ public class CameraActivity extends AppCompatActivity {
     private CameraPreview cameraPreview;
     private FrameLayout cameraFrameLayout;
     private ImageView takePhotoButton;
-    private ImageView savePhotoButton;
+    public ImageView savePhotoButton;
     private Button whiteBalanceButton;
     private Button picturesSizesButton;
     private Button supportedColorEffectsButton;
@@ -104,7 +103,7 @@ public class CameraActivity extends AppCompatActivity {
         savePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                savePhoto(v);
+                savePhoto(v, photoData);
             }
         });
         whiteBalanceButton.setOnClickListener(new View.OnClickListener() {
@@ -247,7 +246,7 @@ public class CameraActivity extends AppCompatActivity {
         camera.takePicture(null, null, camPictureCallback);
     }
 
-    private void savePhoto(View v) {
+    public void savePhoto(View v, final byte[] data) {
         Constants constants = new Constants();
         final File mainFolderFile = constants.getMainFolderFile();
         SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -269,7 +268,7 @@ public class CameraActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String pathToSave = mainFolderFile.getAbsolutePath()
                         + "/" + folderArray[which] + "/" + newPhotoName;
-                savePhotoOnDisk(pathToSave);
+                savePhotoOnDisk(pathToSave, data);
             }
         });
         alert.show();
@@ -327,18 +326,17 @@ public class CameraActivity extends AppCompatActivity {
         alert.show();
     }
 
-    private void savePhotoOnDisk(String pathToSave) {
-        ImageTools.saveOnDisk(pathToSave, photoData);
+    private void savePhotoOnDisk(String pathToSave, byte[] data) {
+        ImageTools.saveOnDisk(pathToSave, data);
     }
 
     private Camera.PictureCallback camPictureCallback = new Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
             photoData = data;
-            Bitmap convertedBitmap = ImageTools.fromByteToBitmap(photoData);
 
             Miniature min = new Miniature(getApplicationContext(),
-                    convertedBitmap,
+                    data,
                     radius / 2,
                     radius / 2,
                     CameraActivity.this);
@@ -352,6 +350,12 @@ public class CameraActivity extends AppCompatActivity {
         }
     };
 
+    public void removeMiniature(int id) {
+        cameraFrameLayout.removeView(miniatures.get(id));
+        miniatures.remove(id);
+        reDrawMiniatures();
+    }
+
     private void reDrawMiniatures() {
         // remove all miniatures
         for (int i = 0; i < miniatures.size(); i++) {
@@ -362,13 +366,19 @@ public class CameraActivity extends AppCompatActivity {
         double a = 0;
 
         // set default alpha step for this count of miniatures
-        double step = 360 / miniatures.size();
+        double step = 0;
+        if (miniatures.size() > 0) {
+            step = 360 / miniatures.size();
+        }
 
         // add miniatures
         for (int i = 0; i < miniatures.size(); i++) {
             double y = radius * Math.sin(Math.toRadians(a));
             double x = radius * Math.cos(Math.toRadians(a));
             Miniature temp = miniatures.get(i);
+
+            // set id from miniatures list
+            temp.setId(i);
 
             temp.setX(centerX - (float) x - radius / 4);
             temp.setY(centerY - (float) y - radius / 4);

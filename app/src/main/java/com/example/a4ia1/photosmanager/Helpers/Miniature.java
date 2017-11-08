@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.a4ia1.photosmanager.Activities.CameraActivity;
 import com.example.a4ia1.photosmanager.R;
 
 /**
@@ -23,14 +24,27 @@ public class Miniature extends ImageView implements View.OnLongClickListener {
     private int width;
     private int height;
     private Activity activity;
+    private byte[] data;
+    private int id = 0;
+    private CameraActivity cameraActivity;
 
-    public Miniature(Context context, Bitmap bitmap, int width, int height, Activity activity) {
+    public Miniature(Context context, byte[] data, int width, int height, Activity activity) {
         super(context);
         this.width = width;
         this.height = height;
         this.activity = activity;
-        bitmap = ImageTools.scaleBitmap(bitmap, width, height);
-        Bitmap convertedBitmap = ImageTools.rotate(bitmap, -90);
+        this.data = data;
+        this.cameraActivity = (CameraActivity) activity;
+
+        // create bitmap from byte[] data
+        Bitmap convertedBitmap = ImageTools.fromByteToBitmap(data);
+
+        // set proper rotation
+        convertedBitmap = ImageTools.rotate(convertedBitmap, -90);
+
+        // set bitmap scale
+        convertedBitmap = ImageTools.scaleBitmap(convertedBitmap, width, height);
+
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
         this.setImageBitmap(convertedBitmap);
         this.setLayoutParams(params);
@@ -63,14 +77,20 @@ public class Miniature extends ImageView implements View.OnLongClickListener {
                         break;
                     // Delete
                     case 1:
+                        cameraActivity.removeMiniature(id);
                         break;
                     // Save
                     case 2:
+                        cameraActivity.savePhoto(cameraActivity.savePhotoButton, data);
                         break;
                 }
             }
         });
         alert.show();
         return false;
+    }
+
+    public void setId(int i) {
+        this.id = i;
     }
 }
