@@ -45,6 +45,7 @@ public class CameraActivity extends AppCompatActivity {
     private FrameLayout cameraFrameLayout;
     private ImageView takePhotoButton;
     // public ImageView savePhotoButton;
+    private ImageView previewImage;
     private Spinner spinner;
     private Button whiteBalanceButton;
     private Button picturesSizesButton;
@@ -104,6 +105,7 @@ public class CameraActivity extends AppCompatActivity {
 
         takePhotoButton = (ImageView) findViewById(R.id.take_photo_button);
         // savePhotoButton = (ImageView) findViewById(R.id.save_photo_button);
+        previewImage = (ImageView) findViewById(R.id.preview_image);
         whiteBalanceButton = (Button) findViewById(R.id.white_balance_button);
         picturesSizesButton = (Button) findViewById(R.id.images_sizes_button);
         supportedColorEffectsButton = (Button) findViewById(R.id.color_effects_button);
@@ -237,6 +239,20 @@ public class CameraActivity extends AppCompatActivity {
                 }
             }
         };
+
+        previewImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cameraFrameLayout.removeView(view);
+                whiteBalanceButton.setVisibility(View.VISIBLE);
+                picturesSizesButton.setVisibility(View.VISIBLE);
+                supportedColorEffectsButton.setVisibility(View.VISIBLE);
+                exposureCompensationButton.setVisibility(View.VISIBLE);
+                takePhotoButton.setVisibility(View.VISIBLE);
+                spinner.setVisibility(View.VISIBLE);
+                previewImage.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override
@@ -505,34 +521,16 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     public void showMiniaturePreview(Miniature min) {
-        ImageView im = new ImageView(getApplicationContext());
         Bitmap originalBitmap = BitmapFactory.decodeByteArray(min.getData(), 0, min.getData().length);
         originalBitmap = ImageTools.rotate(originalBitmap, -90);
         originalBitmap = Bitmap.createScaledBitmap(originalBitmap, (int)(size.x * 0.8), (int)(size.y * 0.8), true);
-        im.setImageBitmap(originalBitmap);
-        // im.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        im.setX((float)(size.x * 0.05));
-        im.setY((float)(size.y * 0.05));
-        im.bringToFront();
+        previewImage.setImageBitmap(originalBitmap);
         whiteBalanceButton.setVisibility(View.INVISIBLE);
         picturesSizesButton.setVisibility(View.INVISIBLE);
         supportedColorEffectsButton.setVisibility(View.INVISIBLE);
         exposureCompensationButton.setVisibility(View.INVISIBLE);
         takePhotoButton.setVisibility(View.INVISIBLE);
         spinner.setVisibility(View.INVISIBLE);
-
-        im.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cameraFrameLayout.removeView(view);
-                whiteBalanceButton.setVisibility(View.VISIBLE);
-                picturesSizesButton.setVisibility(View.VISIBLE);
-                supportedColorEffectsButton.setVisibility(View.VISIBLE);
-                exposureCompensationButton.setVisibility(View.VISIBLE);
-                takePhotoButton.setVisibility(View.VISIBLE);
-                spinner.setVisibility(View.VISIBLE);
-            }
-        });
-        cameraFrameLayout.addView(im);
+        previewImage.setVisibility(View.VISIBLE);
     }
 }
