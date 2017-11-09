@@ -27,6 +27,7 @@ public class Miniature extends ImageView implements View.OnLongClickListener {
     private byte[] data;
     private int id = 0;
     private CameraActivity cameraActivity;
+    private Bitmap convertedBitmap;
 
     public Miniature(Context context, byte[] data, int width, int height, Activity activity) {
         super(context);
@@ -37,7 +38,7 @@ public class Miniature extends ImageView implements View.OnLongClickListener {
         this.cameraActivity = (CameraActivity) activity;
 
         // create bitmap from byte[] data
-        Bitmap convertedBitmap = ImageTools.fromByteToBitmap(data);
+        convertedBitmap = ImageTools.fromByteToBitmap(data);
 
         // set proper rotation
         convertedBitmap = ImageTools.rotate(convertedBitmap, -90);
@@ -65,7 +66,7 @@ public class Miniature extends ImageView implements View.OnLongClickListener {
     }
 
     @Override
-    public boolean onLongClick(View view) {
+    public boolean onLongClick(final View view) {
         final AlertDialog.Builder alert = new AlertDialog.Builder(activity);
         String alertTitle = view.getResources().getString(R.string.miniature_options_alert_title);
         alert.setTitle(alertTitle);
@@ -74,6 +75,7 @@ public class Miniature extends ImageView implements View.OnLongClickListener {
                 switch (which) {
                     // Show
                     case 0:
+                        cameraActivity.showMiniaturePreview((Miniature) view);
                         break;
                     // Delete
                     case 1:

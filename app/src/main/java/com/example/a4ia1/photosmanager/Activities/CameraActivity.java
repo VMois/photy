@@ -4,6 +4,8 @@ import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
@@ -447,7 +449,7 @@ public class CameraActivity extends AppCompatActivity {
                             view.setX(startX);
                             break;
                     }
-                    return true;
+                    return false;
                 }
             });
             miniatures.add(min);
@@ -500,5 +502,37 @@ public class CameraActivity extends AppCompatActivity {
             // apply step to alpha
             a += step;
         }
+    }
+
+    public void showMiniaturePreview(Miniature min) {
+        ImageView im = new ImageView(getApplicationContext());
+        Bitmap originalBitmap = BitmapFactory.decodeByteArray(min.getData(), 0, min.getData().length);
+        originalBitmap = ImageTools.rotate(originalBitmap, -90);
+        originalBitmap = Bitmap.createScaledBitmap(originalBitmap, (int)(size.x * 0.8), (int)(size.y * 0.8), true);
+        im.setImageBitmap(originalBitmap);
+        // im.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        im.setX((float)(size.x * 0.05));
+        im.setY((float)(size.y * 0.05));
+        im.bringToFront();
+        whiteBalanceButton.setVisibility(View.INVISIBLE);
+        picturesSizesButton.setVisibility(View.INVISIBLE);
+        supportedColorEffectsButton.setVisibility(View.INVISIBLE);
+        exposureCompensationButton.setVisibility(View.INVISIBLE);
+        takePhotoButton.setVisibility(View.INVISIBLE);
+        spinner.setVisibility(View.INVISIBLE);
+
+        im.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cameraFrameLayout.removeView(view);
+                whiteBalanceButton.setVisibility(View.VISIBLE);
+                picturesSizesButton.setVisibility(View.VISIBLE);
+                supportedColorEffectsButton.setVisibility(View.VISIBLE);
+                exposureCompensationButton.setVisibility(View.VISIBLE);
+                takePhotoButton.setVisibility(View.VISIBLE);
+                spinner.setVisibility(View.VISIBLE);
+            }
+        });
+        cameraFrameLayout.addView(im);
     }
 }
