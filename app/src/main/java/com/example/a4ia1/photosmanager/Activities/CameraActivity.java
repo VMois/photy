@@ -65,6 +65,8 @@ public class CameraActivity extends AppCompatActivity {
 
     private OrientationEventListener orientationEventListener;
     private int angle = 0;
+    private float startX;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -421,15 +423,31 @@ public class CameraActivity extends AppCompatActivity {
             min.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
+                    float x = motionEvent.getRawX();
+
                     switch(motionEvent.getAction()) {
                         case MotionEvent.ACTION_DOWN:
+                            startX = view.getX();
                             break;
                         case MotionEvent.ACTION_MOVE:
+                            view.setX(x);
+
+                            // what distance should I swipe to delete miniature
+                            double test = radius * 1.5;
+                            if (startX > size.x / 2) {
+                                test = radius;
+                            }
+
+                            if (Math.abs(startX - x) > test) {
+                                Miniature temp = (Miniature) view;
+                                removeMiniature(temp.getMiniatureId());
+                            }
                             break;
                         case MotionEvent.ACTION_UP:
+                            view.setX(startX);
                             break;
                     }
-                    return false;
+                    return true;
                 }
             });
             miniatures.add(min);
