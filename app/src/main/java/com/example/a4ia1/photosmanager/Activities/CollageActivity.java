@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,29 +48,37 @@ public class CollageActivity extends AppCompatActivity {
         display.getSize(size);
 
         // 1% percent of width and height
-        float stepWidth = size.x / 100;
-        float stepHeight = size.y / 100;
+        float stepWidth = (float) size.x / 100;
+        float stepHeight = (float) size.y / 100;
+        Log.d("SIK | size.x", "" + size.x);
+        Log.d("SIK | size.y", "" + size.y);
+        Log.d("SIK | stepWidth", "" + stepWidth);
+        Log.d("SIK | stepHeight", "" + stepHeight);
 
-        // second options to get list
-        // collageList = (ArrayList<ImageData>) getIntent().getSerializableExtra("collage");
         for (ImageData ivData : collageList) {
             ImageView temp = new ImageView(getApplicationContext());
-            temp.setX(ivData.getX() * stepWidth);
-            temp.setY(ivData.getY() * stepHeight);
-            temp.setImageResource(R.drawable.collage);
-            temp.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            temp.setLayoutParams(new FrameLayout.LayoutParams(ivData.getW() * (int) stepWidth, ivData.getH() * (int) stepHeight));
-            // temp.setLayoutParams(new FrameLayout.LayoutParams(ivData.getW(), ivData.getH()));
+            float xMove = ivData.getX() * stepWidth;
+            float yMove = ivData.getY() * stepHeight;
+            Log.d("SIK | xMove", "" + xMove);
+            Log.d("SIK | yMove", "" + yMove);
+            temp.setX(xMove);
+            temp.setY(yMove);
+            temp.setImageResource(R.drawable.take_photo);
+            int wSize = (int)(ivData.getW() * stepWidth);
+            int hSize = (int)(ivData.getH() * stepHeight);
+            Log.d("SIK | wSize", "" + wSize);
+            Log.d("SIK | hSize", "" + hSize);
+            temp.setLayoutParams(new FrameLayout.LayoutParams(wSize, hSize));
             temp.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(final View view) {
+                public void onClick(View view) {
                     lastImageView = (ImageView) view;
                     AlertDialog.Builder alert = new AlertDialog.Builder(CollageActivity.this);
                     String collageTitle = getString(R.string.collage_photo_take);
                     alert.setTitle(collageTitle);
                     alert.setItems(Constants.COLLAGE_DIALOG_OPTIONS, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            handlePicturesOptions(which, view);
+                            handlePicturesOptions(which);
                         }
                     });
                     alert.show();
@@ -79,7 +88,7 @@ public class CollageActivity extends AppCompatActivity {
         }
     }
 
-    public void handlePicturesOptions(int which, View view) {
+    public void handlePicturesOptions(int which) {
         // gallery - 0
         // camera - 1
         switch (which) {
