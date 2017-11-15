@@ -66,41 +66,50 @@ public class MainActivity extends AppCompatActivity {
         albumsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onAlbumsButtonClick(v);
+                onAlbumsButtonClick();
             }
         });
 
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCameraButtonClick(v);
+                onCameraButtonClick();
             }
         });
 
         notesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onNotesButtonClick(v);
+                onNotesButtonClick();
+            }
+        });
+
+        collageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCollageButtonClick();
             }
         });
     }
 
     // event function for AlbumsButton
-    private void onAlbumsButtonClick(View view) {
+    private void onAlbumsButtonClick() {
         Intent intent = new Intent(MainActivity.this, AlbumsActivity.class);
-        Bundle arrayBundle = new Bundle();
         startActivity(intent);
     }
 
-    private void onCameraButtonClick(View view) {
+    private void onCameraButtonClick() {
         Intent intent = new Intent(MainActivity.this, CameraActivity.class);
-        Bundle arrayBundle = new Bundle();
         startActivity(intent);
     }
 
-    private void onNotesButtonClick(View view) {
+    private void onNotesButtonClick() {
         Intent intent = new Intent(MainActivity.this, NotesActivity.class);
-        Bundle arrayBundle = new Bundle();
+        startActivity(intent);
+    }
+
+    private void onCollageButtonClick() {
+        Intent intent = new Intent(getApplicationContext(), ChooseCollage.class);
         startActivity(intent);
     }
 }

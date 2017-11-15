@@ -32,6 +32,10 @@ public class Constants {
     };
 
     public final static int[] TEST_COLLAGE_OPTIONS = { 150, 200, 100, 300};
+    public final static String[] COLLAGE_DIALOG_OPTIONS = {
+        "Gallery",
+        "Camera"
+    };
 
     public Constants() {
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);

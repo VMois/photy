@@ -41,4 +41,11 @@ public class ImageTools {
             Log.e("[!] Bad photo save", err.toString());
         }
     }
+    public static Bitmap defaultScale(Bitmap unscaledBitmap) {
+        Matrix matrix = new Matrix();
+        matrix.postScale(-1.0f, 1.0f);
+        return Bitmap.createBitmap(unscaledBitmap, 0, 0,
+                unscaledBitmap.getWidth(),
+                unscaledBitmap.getHeight(), matrix, true);
+    }
 }
