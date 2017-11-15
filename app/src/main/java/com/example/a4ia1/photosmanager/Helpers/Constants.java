@@ -31,6 +31,8 @@ public class Constants {
             "Delete all"
     };
 
+    public final static int[] TEST_COLLAGE_OPTIONS = { 150, 200, 100, 300};
+
     public Constants() {
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         mainFolderFile = new File(pictureFolder, MAIN_FOLDER_NAME);

@@ -29,7 +29,9 @@
             android:name=".Activities.CameraActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".Activities.NotesActivity" />
-        <activity android:name=".Activities.NoteEditActivity"></activity>
+        <activity android:name=".Activities.NoteEditActivity" />
+        <activity android:name=".Activities.ChooseCollage" />
+        <activity android:name=".Activities.CollageActivity"></activity>
     </application>
 
 </manifest>
