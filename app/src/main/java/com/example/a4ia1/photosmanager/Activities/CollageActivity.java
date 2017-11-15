@@ -4,11 +4,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -30,6 +32,8 @@ public class CollageActivity extends AppCompatActivity {
     private List<ImageData> collageList;
     private FrameLayout frameLayout;
     private ImageView lastImageView;
+    private Point size;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,14 +42,24 @@ public class CollageActivity extends AppCompatActivity {
         frameLayout = (FrameLayout) findViewById(R.id.collage_frame_layout);
         frameLayout.setDrawingCacheEnabled(true);
         collageList = (ArrayList<ImageData>) getIntent().getExtras().getSerializable("collage");
+        Display display = getWindowManager().getDefaultDisplay();
+        size = new Point();
+        display.getSize(size);
+
+        // 1% percent of width and height
+        float stepWidth = size.x / 100;
+        float stepHeight = size.y / 100;
+
         // second options to get list
         // collageList = (ArrayList<ImageData>) getIntent().getSerializableExtra("collage");
         for (ImageData ivData : collageList) {
             ImageView temp = new ImageView(getApplicationContext());
-            temp.setX(ivData.getX());
-            temp.setY(ivData.getY());
+            temp.setX(ivData.getX() * stepWidth);
+            temp.setY(ivData.getY() * stepHeight);
             temp.setImageResource(R.drawable.collage);
-            temp.setLayoutParams(new FrameLayout.LayoutParams(ivData.getW(), ivData.getH()));
+            temp.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            temp.setLayoutParams(new FrameLayout.LayoutParams(ivData.getW() * (int) stepWidth, ivData.getH() * (int) stepHeight));
+            // temp.setLayoutParams(new FrameLayout.LayoutParams(ivData.getW(), ivData.getH()));
             temp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
