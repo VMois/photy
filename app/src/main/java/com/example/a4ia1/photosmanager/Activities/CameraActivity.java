@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.hardware.Camera;
@@ -44,7 +43,6 @@ public class CameraActivity extends AppCompatActivity {
     private CameraPreview cameraPreview;
     private FrameLayout cameraFrameLayout;
     private ImageView takePhotoButton;
-    // public ImageView savePhotoButton;
     private ImageView previewImage;
     private Spinner spinner;
     private Button whiteBalanceButton;
@@ -104,7 +102,6 @@ public class CameraActivity extends AppCompatActivity {
         }
 
         takePhotoButton = (ImageView) findViewById(R.id.take_photo_button);
-        // savePhotoButton = (ImageView) findViewById(R.id.save_photo_button);
         previewImage = (ImageView) findViewById(R.id.preview_image);
         whiteBalanceButton = (Button) findViewById(R.id.white_balance_button);
         picturesSizesButton = (Button) findViewById(R.id.images_sizes_button);
@@ -117,15 +114,6 @@ public class CameraActivity extends AppCompatActivity {
                 takePhoto(v);
             }
         });
-        // For now is unused, could be deleted in future
-        /*
-        savePhotoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                savePhoto(v, photoData);
-            }
-        });
-        */
 
         spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
