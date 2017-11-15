@@ -50,9 +50,9 @@ public class CollageActivity extends AppCompatActivity {
                 @Override
                 public void onClick(final View view) {
                     lastImageView = (ImageView) view;
-                    AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
-                    String dialogTitle = getString(R.string.note_options_dialog_title);
-                    alert.setTitle(dialogTitle);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(CollageActivity.this);
+                    String collageTitle = getString(R.string.collage_photo_take);
+                    alert.setTitle(collageTitle);
                     alert.setItems(Constants.COLLAGE_DIALOG_OPTIONS, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             handlePicturesOptions(which, view);
@@ -72,13 +72,11 @@ public class CollageActivity extends AppCompatActivity {
             case 0:
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK);
                 galleryIntent.setType("image/*");
-                galleryIntent.putExtra("iv", (Serializable) view);
                 startActivityForResult(galleryIntent, 100);
                 break;
             case 1:
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-                    cameraIntent.putExtra("iv", (Serializable) view);
                     startActivityForResult(cameraIntent, 200);
                 }
                 break;
