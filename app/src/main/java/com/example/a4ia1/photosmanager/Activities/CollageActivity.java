@@ -67,6 +67,7 @@ public class CollageActivity extends AppCompatActivity {
             temp.setX(xMove);
             temp.setY(yMove);
             temp.setImageResource(R.drawable.take_photo);
+            temp.setBackgroundResource(R.drawable.image_border);
             int wSize = (int)(ivData.getW() * stepWidth);
             int hSize = (int)(ivData.getH() * stepHeight);
             Log.d("SIK | wSize", "" + wSize);
