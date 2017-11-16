@@ -5,20 +5,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.a4ia1.photosmanager.Activities.ChooseCollage">
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Simple 1"
-        android:id="@+id/collage_choose_simple_1"/>
-    <Button
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+        <ImageButton
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/collage_simple_1"
+            android:id="@+id/collage_choose_simple_1"/>
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/collage_simple_2"
+            android:id="@+id/collage_choose_simple_2"/>
+    </LinearLayout>
+    <ImageButton
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Simple 2"
-        android:id="@+id/collage_choose_simple_2"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Complicated 1"
+        android:layout_height="match_parent"
+        android:src="@drawable/collage_complicated_1"
         android:id="@+id/collage_choose_complicated_1"/>
 
 </LinearLayout>

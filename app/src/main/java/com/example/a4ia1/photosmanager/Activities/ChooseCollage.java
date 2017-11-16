@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.a4ia1.photosmanager.Helpers.Constants;
 import com.example.a4ia1.photosmanager.Helpers.ImageData;
@@ -18,9 +19,9 @@ public class ChooseCollage extends AppCompatActivity {
     private List<ImageData> collageImagesList;
     private int[][][] collages;
     private View.OnClickListener collageChooseClickFunction;
-    private Button collageButtonSimple1;
-    private Button collageButtonSimple2;
-    private Button collageButtonComplicated1;
+    private ImageButton collageButtonSimple1;
+    private ImageButton collageButtonSimple2;
+    private ImageButton collageButtonComplicated1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +66,9 @@ public class ChooseCollage extends AppCompatActivity {
                 }
             }
         };
-        collageButtonSimple1 = (Button) findViewById(R.id.collage_choose_simple_1);
-        collageButtonSimple2 = (Button) findViewById(R.id.collage_choose_simple_2);
-        collageButtonComplicated1 = (Button) findViewById(R.id.collage_choose_complicated_1);
+        collageButtonSimple1 = (ImageButton) findViewById(R.id.collage_choose_simple_1);
+        collageButtonSimple2 = (ImageButton) findViewById(R.id.collage_choose_simple_2);
+        collageButtonComplicated1 = (ImageButton) findViewById(R.id.collage_choose_complicated_1);
 
         collageButtonSimple1.setOnClickListener(collageChooseClickFunction);
         collageButtonSimple2.setOnClickListener(collageChooseClickFunction);
