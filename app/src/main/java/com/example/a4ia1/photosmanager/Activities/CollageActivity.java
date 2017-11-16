@@ -120,7 +120,7 @@ public class CollageActivity extends AppCompatActivity {
                 try {
                     InputStream stream = getContentResolver().openInputStream(imgData);
                     Bitmap bitmap = BitmapFactory.decodeStream(stream);
-                    bitmap = ImageTools.defaultScale(bitmap);
+                    bitmap = ImageTools.scaleBitmap(bitmap, lastImageView.getWidth(), lastImageView.getHeight());
                     lastImageView.setImageBitmap(bitmap);
                 } catch (IOException e) {
                    e.printStackTrace();
@@ -129,7 +129,7 @@ public class CollageActivity extends AppCompatActivity {
             case 200:
                 Bundle extras = data.getExtras();
                 Bitmap b = (Bitmap) extras.get("data");
-                b = ImageTools.defaultScale(b);
+                b = ImageTools.scaleBitmap(b, lastImageView.getWidth(), lastImageView.getHeight());
                 lastImageView.setImageBitmap(b);
                 break;
         }
