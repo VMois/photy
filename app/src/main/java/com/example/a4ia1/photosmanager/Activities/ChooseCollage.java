@@ -16,8 +16,11 @@ import java.util.List;
 
 public class ChooseCollage extends AppCompatActivity {
     private List<ImageData> collageImagesList;
-    private Button testButton;
     private int[][][] collages;
+    private View.OnClickListener collageChooseClickFunction;
+    private Button collageButtonSimple1;
+    private Button collageButtonSimple2;
+    private Button collageButtonComplicated1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,28 +34,44 @@ public class ChooseCollage extends AppCompatActivity {
                 },
                 // second collage - simple
                 {
-                        {0, 0, 100, 80},
-                        {0, 80, 50, 20},
-                        {50, 80, 50, 20}
+                        {0, 0, 100, 70},
+                        {0, 70, 50, 30},
+                        {50, 70, 50, 30}
                 },
                 // third collage - complicated
                 {
-                        {0, 0, 100, 80},
-                        {0, 80, 50, 20},
-                        {50, 80, 50, 20},
-                        {0, 0, 100, 80},
-                        {0, 80, 50, 20},
-                        {50, 80, 50, 20}
+                        {0, 0, 20, 30},
+                        {20, 0, 40, 30},
+                        {60, 0, 40, 60},
+                        {0, 30, 60, 30},
+                        {0, 60, 40, 40},
+                        {40, 60, 60, 40}
                 }
         };
         collageImagesList = new ArrayList<>();
-        testButton = (Button) findViewById(R.id.c1);
-        testButton.setOnClickListener(new View.OnClickListener() {
+        collageChooseClickFunction = new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                onCollageClick(0);
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.collage_choose_simple_1:
+                        onCollageClick(0);
+                        break;
+                    case R.id.collage_choose_simple_2:
+                        onCollageClick(1);
+                        break;
+                    case R.id.collage_choose_complicated_1:
+                        onCollageClick(2);
+                        break;
+                }
             }
-        });
+        };
+        collageButtonSimple1 = (Button) findViewById(R.id.collage_choose_simple_1);
+        collageButtonSimple2 = (Button) findViewById(R.id.collage_choose_simple_2);
+        collageButtonComplicated1 = (Button) findViewById(R.id.collage_choose_complicated_1);
+
+        collageButtonSimple1.setOnClickListener(collageChooseClickFunction);
+        collageButtonSimple2.setOnClickListener(collageChooseClickFunction);
+        collageButtonComplicated1.setOnClickListener(collageChooseClickFunction);
     }
 
     public void onCollageClick(int collageId) {

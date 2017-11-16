@@ -40,6 +40,9 @@ public class CollageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collage);
 
+        // hide top bar
+        getSupportActionBar().hide();
+
         frameLayout = (FrameLayout) findViewById(R.id.collage_frame_layout);
         frameLayout.setDrawingCacheEnabled(true);
         collageList = (ArrayList<ImageData>) getIntent().getExtras().getSerializable("collage");
