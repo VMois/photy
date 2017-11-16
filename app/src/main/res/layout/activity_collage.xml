@@ -11,4 +11,5 @@
         android:id="@+id/collage_frame_layout">
     </FrameLayout>
 
+
 </LinearLayout>

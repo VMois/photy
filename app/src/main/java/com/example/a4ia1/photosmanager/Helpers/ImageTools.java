@@ -7,6 +7,9 @@ import android.util.Log;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by vmois on 11/1/17.
@@ -39,6 +42,31 @@ public class ImageTools {
             fs.close();
         } catch (IOException err) {
             Log.e("[!] Bad photo save", err.toString());
+        }
+    }
+    public static void saveBitmapOnDisk(String path, Bitmap b) {
+        // generate random name
+        Random rand = new Random();
+        SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        int randomSuffix = rand.nextInt(1000) + 100;
+        String newCollageName = dFormat.format(new Date()) + "" + randomSuffix;
+
+        // create new path
+        path = path + "/" + newCollageName;
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(path);
+            b.compress(Bitmap.CompressFormat.PNG, 100, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

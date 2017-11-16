@@ -20,4 +20,5 @@
     <string name="note_edit_save_button_text">Save note</string>
     <string name="miniature_options_alert_title">Choose action for miniature</string>
     <string name="collage_photo_take">Choose way of getting photo</string>
+    <string name="collage_options_title">Collage options</string>
 </resources>

@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -20,6 +21,7 @@ import com.example.a4ia1.photosmanager.Helpers.ImageData;
 import com.example.a4ia1.photosmanager.Helpers.ImageTools;
 import com.example.a4ia1.photosmanager.R;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -69,12 +71,39 @@ public class CollageActivity extends AppCompatActivity {
                     AlertDialog.Builder alert = new AlertDialog.Builder(CollageActivity.this);
                     String collageTitle = getString(R.string.collage_photo_take);
                     alert.setTitle(collageTitle);
-                    alert.setItems(Constants.COLLAGE_DIALOG_OPTIONS, new DialogInterface.OnClickListener() {
+                    alert.setItems(Constants.COLLAGE_PHOTO_DIALOG_OPTIONS, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             handlePicturesOptions(which);
                         }
                     });
                     alert.show();
+                }
+            });
+            temp.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(CollageActivity.this);
+                    String collageTitle = getString(R.string.collage_options_title);
+                    alert.setTitle(collageTitle);
+                    alert.setItems(Constants.COLLAGE_DIALOG_OPTIONS, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // 0 - save collage on disk
+                            switch(which) {
+                                case 0:
+                                    Constants constants = new Constants();
+                                    File mainFolder = constants.getMainFolderFile();
+                                    File folderToWrite = new File(mainFolder, Constants.FOLDER_NAME_FOR_COLLAGES);
+                                    if (!folderToWrite.exists()) {
+                                        folderToWrite.mkdir();
+                                    }
+                                    Bitmap collageBitmap = frameLayout.getDrawingCache(true);
+                                    ImageTools.saveBitmapOnDisk(folderToWrite.getAbsolutePath(), collageBitmap);
+                                    return;
+                            }
+                        }
+                    });
+                    alert.show();
+                    return false;
                 }
             });
             frameLayout.addView(temp);
@@ -103,24 +132,26 @@ public class CollageActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // 100 - gallery,
         // 200 - camera
-        switch (requestCode) {
-            case 100:
-                Uri imgData = data.getData();
-                try {
-                    InputStream stream = getContentResolver().openInputStream(imgData);
-                    Bitmap bitmap = BitmapFactory.decodeStream(stream);
-                    bitmap = ImageTools.scaleBitmap(bitmap, lastImageView.getWidth(), lastImageView.getHeight());
-                    lastImageView.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                   e.printStackTrace();
-                }
-                break;
-            case 200:
-                Bundle extras = data.getExtras();
-                Bitmap b = (Bitmap) extras.get("data");
-                b = ImageTools.scaleBitmap(b, lastImageView.getWidth(), lastImageView.getHeight());
-                lastImageView.setImageBitmap(b);
-                break;
+        if (resultCode == -1) {
+            switch (requestCode) {
+                case 100:
+                    Uri imgData = data.getData();
+                    try {
+                        InputStream stream = getContentResolver().openInputStream(imgData);
+                        Bitmap bitmap = BitmapFactory.decodeStream(stream);
+                        lastImageView.setImageBitmap(bitmap);
+                        lastImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 200:
+                    Bundle extras = data.getExtras();
+                    Bitmap b = (Bitmap) extras.get("data");
+                    lastImageView.setImageBitmap(b);
+                    lastImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    break;
+            }
         }
     }
 }

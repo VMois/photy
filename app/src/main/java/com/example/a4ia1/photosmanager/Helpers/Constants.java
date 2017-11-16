@@ -31,10 +31,16 @@ public class Constants {
             "Delete all"
     };
 
-    public final static String[] COLLAGE_DIALOG_OPTIONS = {
+    public final static String[] COLLAGE_PHOTO_DIALOG_OPTIONS = {
         "Gallery",
         "Camera"
     };
+
+    public final static String[] COLLAGE_DIALOG_OPTIONS = {
+            "Save collage",
+    };
+
+    public final static String FOLDER_NAME_FOR_COLLAGES = "collages";
 
     public Constants() {
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
