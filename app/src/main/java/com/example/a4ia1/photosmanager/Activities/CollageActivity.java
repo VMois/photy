@@ -53,25 +53,17 @@ public class CollageActivity extends AppCompatActivity {
         // 1% percent of width and height
         float stepWidth = (float) size.x / 100;
         float stepHeight = (float) size.y / 100;
-        Log.d("SIK | size.x", "" + size.x);
-        Log.d("SIK | size.y", "" + size.y);
-        Log.d("SIK | stepWidth", "" + stepWidth);
-        Log.d("SIK | stepHeight", "" + stepHeight);
 
         for (ImageData ivData : collageList) {
             ImageView temp = new ImageView(getApplicationContext());
             float xMove = ivData.getX() * stepWidth;
             float yMove = ivData.getY() * stepHeight;
-            Log.d("SIK | xMove", "" + xMove);
-            Log.d("SIK | yMove", "" + yMove);
             temp.setX(xMove);
             temp.setY(yMove);
             temp.setImageResource(R.drawable.take_photo);
             temp.setBackgroundResource(R.drawable.image_border);
             int wSize = (int)(ivData.getW() * stepWidth);
             int hSize = (int)(ivData.getH() * stepHeight);
-            Log.d("SIK | wSize", "" + wSize);
-            Log.d("SIK | hSize", "" + hSize);
             temp.setLayoutParams(new FrameLayout.LayoutParams(wSize, hSize));
             temp.setOnClickListener(new View.OnClickListener() {
                 @Override
