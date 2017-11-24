@@ -6,4 +6,6 @@
     <color name="noteRedColor">#FF202F</color>
     <color name="noteBlueColor">#321FFF</color>
     <color name="noteGreenColor">#10FF60</color>
+    <color name="pictureMenuWhite">#ffffff</color>
+    <color name="black">#000000</color>
 </resources>

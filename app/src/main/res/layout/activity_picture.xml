@@ -49,10 +49,11 @@
 
         <!-- Left menu ListView -->
         <ListView
-            android:layout_width="200dp"
+            android:layout_width="225dp"
+            android:background="@color/pictureMenuWhite"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="#ff0000"
+            android:id="@+id/picture_drawer_listview"
             />
     </android.support.v4.widget.DrawerLayout>
 

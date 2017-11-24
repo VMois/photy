@@ -3,19 +3,22 @@ package com.example.a4ia1.photosmanager.Activities;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.a4ia1.photosmanager.Adapters.PictureArrayAdapter;
+import com.example.a4ia1.photosmanager.Helpers.DrawerMenuItem;
 import com.example.a4ia1.photosmanager.R;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Picture extends AppCompatActivity {
 
@@ -28,7 +31,6 @@ public class Picture extends AppCompatActivity {
     private int originalWidth;
     private int originalHeight;
     private Point size;
-    private DrawerLayout drawerLayout;
 
     private RelativeLayout.LayoutParams params;
     // 0 - big, 1 - middle, 2 - small;
@@ -75,8 +77,17 @@ public class Picture extends AppCompatActivity {
                 onDeleteImageButtonClick(v);
             }
         });
-
-        drawerLayout = (DrawerLayout) findViewById(R.id.picture_drawer_layout);
+        ArrayList<DrawerMenuItem> PICTURE_MENU_ITEMS = new ArrayList<>(
+                Arrays.asList(
+                        new DrawerMenuItem(R.mipmap.ic_fonts, "Fonts")
+                )
+        );
+        PictureArrayAdapter menuAdapter = new PictureArrayAdapter(
+                getApplicationContext(),
+                R.layout.picture_row_layout,
+                PICTURE_MENU_ITEMS );
+        ListView drawerListView = (ListView) findViewById(R.id.picture_drawer_listview);
+        drawerListView.setAdapter(menuAdapter);
     }
 
     private Bitmap betterImageDecode(String filePath) {
