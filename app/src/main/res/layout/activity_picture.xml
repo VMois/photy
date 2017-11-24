@@ -1,41 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".Activities.Picture">
-    <RelativeLayout
+    <android.support.v4.widget.DrawerLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:scaleType="centerCrop"
-            android:id="@+id/main_image"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
-        <ImageView
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/scale"
-            android:background="@color/colorPrimaryDark"
-            android:id="@+id/scale_icon"
-            />
-        <ImageView
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/delete_icon"
-            android:background="@color/colorPrimaryDark"
-            android:id="@+id/delete_image_icon"
-            />
-        </LinearLayout>
-    </RelativeLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/picture_drawer_layout">
 
-</android.support.constraint.ConstraintLayout>
+        <!-- Main content of the page -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                android:id="@+id/main_image"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/scale"
+                    android:background="@color/colorPrimaryDark"
+                    android:id="@+id/scale_icon"
+                    />
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/delete_icon"
+                    android:background="@color/colorPrimaryDark"
+                    android:id="@+id/delete_image_icon"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Left menu ListView -->
+        <ListView
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#ff0000"
+            />
+    </android.support.v4.widget.DrawerLayout>
+
+</LinearLayout>

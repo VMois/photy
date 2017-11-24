@@ -3,6 +3,8 @@ package com.example.a4ia1.photosmanager.Activities;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -26,6 +28,7 @@ public class Picture extends AppCompatActivity {
     private int originalWidth;
     private int originalHeight;
     private Point size;
+    private DrawerLayout drawerLayout;
 
     private RelativeLayout.LayoutParams params;
     // 0 - big, 1 - middle, 2 - small;
@@ -72,6 +75,8 @@ public class Picture extends AppCompatActivity {
                 onDeleteImageButtonClick(v);
             }
         });
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.picture_drawer_layout);
     }
 
     private Bitmap betterImageDecode(String filePath) {
