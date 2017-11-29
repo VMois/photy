@@ -42,6 +42,8 @@ public class Constants {
 
     public final static String FOLDER_NAME_FOR_COLLAGES = "collages";
 
+    public final static String FONTS_DEFAULT_PREVIEW_TEXT = "Żźaąęóńuy";
+
     public Constants() {
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         mainFolderFile = new File(pictureFolder, MAIN_FOLDER_NAME);
