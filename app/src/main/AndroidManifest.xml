@@ -31,8 +31,10 @@
         <activity android:name=".Activities.NotesActivity" />
         <activity android:name=".Activities.NoteEditActivity" />
         <activity android:name=".Activities.ChooseCollage" />
-        <activity android:name=".Activities.CollageActivity"
-                  android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.CollageActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Activities.LettersActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.example.a4ia1.photosmanager.Activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -88,6 +90,26 @@ public class Picture extends AppCompatActivity {
                 PICTURE_MENU_ITEMS );
         ListView drawerListView = (ListView) findViewById(R.id.picture_drawer_listview);
         drawerListView.setAdapter(menuAdapter);
+        drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0:
+                        Intent lettersIntent = new Intent(getApplicationContext(), LettersActivity.class);
+                        startActivityForResult(lettersIntent, 300);
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // letters - 300
+        switch (requestCode) {
+            case 300:
+                break;
+        }
     }
 
     private Bitmap betterImageDecode(String filePath) {
