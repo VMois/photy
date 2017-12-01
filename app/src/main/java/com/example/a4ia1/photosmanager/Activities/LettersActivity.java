@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,13 +22,14 @@ public class LettersActivity extends AppCompatActivity {
     private RelativeLayout previewLayout;
     private PreviewText previewText;
     private Typeface currentTypeFace;
+    private EditText previewFontEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_letters);
         getSupportActionBar().hide();
-        EditText previewFontEditText = (EditText) findViewById(R.id.preview_font_et);
+        previewFontEditText = (EditText) findViewById(R.id.preview_font_et);
         LinearLayout fontsLayout = (LinearLayout) findViewById(R.id.fonts_layout);
         previewLayout = (RelativeLayout) findViewById(R.id.preview_layout);
         previewLayout.bringToFront();
@@ -45,7 +46,15 @@ public class LettersActivity extends AppCompatActivity {
             Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/" + font);
             newTextView.setTypeface(tf);
             newTextView.setText(Constants.FONTS_DEFAULT_PREVIEW_TEXT);
-            newTextView.setTextSize(35);
+            newTextView.setTextSize(45);
+            newTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TextView clickedTextView = (TextView) view;
+                    currentTypeFace = clickedTextView.getTypeface();
+                    renderPreviewText(previewFontEditText.getText().toString());
+                }
+            });
             fontsLayout.addView(newTextView);
             currentTypeFace = tf;
         }
@@ -63,16 +72,20 @@ public class LettersActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                previewLayout.removeAllViews();
-                previewText = new PreviewText(
-                        getApplicationContext(),
-                        editable.toString(),
-                        currentTypeFace,
-                        previewLayout.getX(),
-                        previewLayout.getY() + (previewLayout.getHeight() / 2));
-                previewLayout.addView(previewText);
+               renderPreviewText(editable.toString());
             }
         };
         previewFontEditText.addTextChangedListener(textWatcher);
+    }
+
+    private void renderPreviewText(String newText) {
+        previewLayout.removeAllViews();
+        previewText = new PreviewText(
+                getApplicationContext(),
+                newText,
+                currentTypeFace,
+                previewLayout.getX(),
+                previewLayout.getY() + (previewLayout.getHeight() / 2));
+        previewLayout.addView(previewText);
     }
 }
