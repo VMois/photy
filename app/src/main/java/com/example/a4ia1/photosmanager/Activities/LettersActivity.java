@@ -69,7 +69,7 @@ public class LettersActivity extends AppCompatActivity {
                         editable.toString(),
                         currentTypeFace,
                         previewLayout.getX(),
-                        125);
+                        previewLayout.getY() + (previewLayout.getHeight() / 2));
                 previewLayout.addView(previewText);
             }
         };
