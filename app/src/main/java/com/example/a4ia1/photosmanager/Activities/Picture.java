@@ -127,10 +127,12 @@ public class Picture extends AppCompatActivity {
                         startX,
                         startY);
                 mainLayout.addView(previewText);
-                RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(previewText.getTextWidth(), previewText.getTextHeight());
+                //RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(previewText.getTextWidth(), previewText.getTextHeight());
+                RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(500, 900);
                 previewText.setLayoutParams(layout);
                 previewText.setX(startX);
                 previewText.setY(startY);
+                previewText.setBackgroundResource(R.color.colorPrimaryDark);
                 previewTextList.add(previewText);
                 break;
         }
