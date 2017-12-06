@@ -5,11 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 /**
  * Created by vmois on 11/29/17.
