@@ -38,7 +38,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/return_preview_text_button"
+            android:id="@+id/return_data_button"
             android:text="@string/return_preview_text_button"/>
     </LinearLayout>
 

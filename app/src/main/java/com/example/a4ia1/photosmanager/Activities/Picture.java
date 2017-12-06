@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.a4ia1.photosmanager.Adapters.PictureArrayAdapter;
 import com.example.a4ia1.photosmanager.Helpers.DrawerMenuItem;
+import com.example.a4ia1.photosmanager.Helpers.PreviewText;
 import com.example.a4ia1.photosmanager.R;
 
 import java.io.File;
@@ -33,8 +35,9 @@ public class Picture extends AppCompatActivity {
     private int originalWidth;
     private int originalHeight;
     private Point size;
+    private RelativeLayout mainLayout;
+    private ArrayList<PreviewText> previewTextList;
 
-    private RelativeLayout.LayoutParams params;
     // 0 - big, 1 - middle, 2 - small;
     private int scaleType = 1;
     final private int bigParams = RelativeLayout.LayoutParams.MATCH_PARENT;
@@ -101,6 +104,9 @@ public class Picture extends AppCompatActivity {
                 }
             }
         });
+
+        mainLayout = (RelativeLayout) findViewById(R.id.picture_main_layout);
+        previewTextList = new ArrayList<>();
     }
 
     @Override
@@ -108,6 +114,24 @@ public class Picture extends AppCompatActivity {
         // letters - 300
         switch (requestCode) {
             case 300:
+                Bundle extras = data.getExtras();
+                String fontName = (String) extras.get("fontName");
+                String text = (String) extras.get("text");
+                Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/" + fontName);
+                float startY = mainImage.getHeight() / 4;
+                float startX = mainImage.getX() + 100;
+                PreviewText previewText = new PreviewText(
+                        getApplicationContext(),
+                        text,
+                        tf,
+                        startX,
+                        startY);
+                mainLayout.addView(previewText);
+                RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(previewText.getTextWidth(), previewText.getTextHeight());
+                previewText.setLayoutParams(layout);
+                previewText.setX(startX);
+                previewText.setY(startY);
+                previewTextList.add(previewText);
                 break;
         }
     }

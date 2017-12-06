@@ -5,7 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 /**
  * Created by vmois on 11/29/17.
@@ -16,6 +20,8 @@ public class PreviewText extends View {
     private String text;
     private float x;
     private float y;
+    private float textWidth;
+    private float textHeight;
 
     public PreviewText(Context context, String text, Typeface tf, float X, float Y) {
         super(context);
@@ -24,7 +30,11 @@ public class PreviewText extends View {
         paint.setAntiAlias(true);
         paint.setTextSize(100);
         paint.setTypeface(tf);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.RED);
         this.text = text;
+        this.textWidth = paint.measureText(this.text);
+        this.textHeight = paint.getTextSize() + paint.getTextSize() / 2;
         this.x = X;
         this.y = Y;
     }
@@ -32,8 +42,14 @@ public class PreviewText extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.RED);
-        canvas.drawText(text, x, y, paint);
+        canvas.drawText(text, x, paint.getTextSize() - paint.getTextSize() / 4, paint);
+    }
+
+    public int getTextWidth() {
+        return (int) (this.textWidth + this.x);
+    }
+
+    public int getTextHeight() {
+        return (int) textHeight;
     }
 }

@@ -15,7 +15,8 @@
         <!-- Main content of the page -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/picture_main_layout">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
