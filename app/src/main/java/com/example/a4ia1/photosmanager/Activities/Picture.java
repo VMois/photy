@@ -118,8 +118,8 @@ public class Picture extends AppCompatActivity {
                 String fontName = (String) extras.get("fontName");
                 String text = (String) extras.get("text");
                 Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/" + fontName);
-                float startY = mainImage.getHeight() / 4;
-                float startX = mainImage.getX() + 100;
+                float startY = mainImage.getHeight() / 8;
+                float startX = mainImage.getX() + 250;
                 PreviewText previewText = new PreviewText(
                         getApplicationContext(),
                         text,
@@ -127,12 +127,11 @@ public class Picture extends AppCompatActivity {
                         startX,
                         startY);
                 mainLayout.addView(previewText);
-                //RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(previewText.getTextWidth(), previewText.getTextHeight());
-                RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(500, 900);
+                previewText.bringToFront();
+                RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(previewText.getTextWidth(), previewText.getTextHeight());
                 previewText.setLayoutParams(layout);
                 previewText.setX(startX);
                 previewText.setY(startY);
-                previewText.setBackgroundResource(R.color.colorPrimaryDark);
                 previewTextList.add(previewText);
                 break;
         }
