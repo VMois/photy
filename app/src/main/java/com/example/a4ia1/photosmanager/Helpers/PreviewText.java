@@ -19,17 +19,19 @@ public class PreviewText extends View implements View.OnClickListener, View.OnTo
     private String text;
     private float x;
     private float y;
+    private int baseColor;
     private float textWidth;
     private float textHeight;
     private int drawCommand;
     private Paint.FontMetrics fontMetrics;
 
-    public PreviewText(Context context, String text, Typeface tf, float X, float Y) {
+    public PreviewText(Context context, String text, int baseColor, Typeface tf, float X, float Y) {
         super(context);
         this.x = X;
         this.y = Y;
         this.text = text;
         this.drawCommand = -1;
+        this.baseColor = baseColor;
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setAntiAlias(true);

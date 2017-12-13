@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.a4ia1.photosmanager.Helpers.ColorPicker;
 import com.example.a4ia1.photosmanager.Helpers.Constants;
 import com.example.a4ia1.photosmanager.Helpers.PreviewText;
 import com.example.a4ia1.photosmanager.R;
@@ -90,13 +91,32 @@ public class LettersActivity extends AppCompatActivity {
                         currentFontName);
             }
         });
+        ColorPicker colorPicker = new ColorPicker(this);
+        ColorPicker colorPicker1 = new ColorPicker(this);
+
+        LinearLayout bottomLayout = (LinearLayout) findViewById(R.id.bottom_layout);
+        RelativeLayout.LayoutParams colorPickerParams = new RelativeLayout.LayoutParams(150, 150);
+
+        colorPicker.setLayoutParams(colorPickerParams);
+        colorPicker1.setLayoutParams(colorPickerParams);
+
+        // setting custom listener
+        colorPicker.setCustomObjectListener(new ColorPicker.ColorPickerCustomListenerObject() {
+            @Override
+            public void onColorPick(int pickedColor) {
+                renderPreviewText();
+            }
+        });
+        // TODO: Add second picker
+        bottomLayout.addView(colorPicker);
     }
 
-    private void renderPreviewText(String newText) {
+    private void renderPreviewText(String newText, int baseColor) {
         previewLayout.removeAllViews();
         previewText = new PreviewText(
                 getApplicationContext(),
                 newText,
+                baseColor,
                 currentTypeFace,
                 previewLayout.getX(),
                 previewLayout.getY() + (previewLayout.getHeight() / 2));
