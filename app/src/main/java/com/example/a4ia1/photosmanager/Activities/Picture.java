@@ -1,10 +1,13 @@
 package com.example.a4ia1.photosmanager.Activities;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 import com.example.a4ia1.photosmanager.Adapters.PictureArrayAdapter;
 import com.example.a4ia1.photosmanager.Helpers.DrawerMenuItem;
 import com.example.a4ia1.photosmanager.Helpers.PreviewText;
+import com.example.a4ia1.photosmanager.Network.NetworkStatus;
 import com.example.a4ia1.photosmanager.R;
 
 import java.io.File;
@@ -37,6 +41,7 @@ public class Picture extends AppCompatActivity {
     private Point size;
     private RelativeLayout mainLayout;
     private ArrayList<PreviewText> previewTextList;
+    private ProgressDialog pDialog;
 
     // 0 - big, 1 - middle, 2 - small;
     private int scaleType = 1;
@@ -84,7 +89,8 @@ public class Picture extends AppCompatActivity {
         });
         ArrayList<DrawerMenuItem> PICTURE_MENU_ITEMS = new ArrayList<>(
                 Arrays.asList(
-                        new DrawerMenuItem(R.mipmap.ic_fonts, "Fonts")
+                        new DrawerMenuItem(R.mipmap.ic_fonts, "Fonts"),
+                        new DrawerMenuItem(R.mipmap.ic_upload, "Upload")
                 )
         );
         PictureArrayAdapter menuAdapter = new PictureArrayAdapter(
@@ -97,9 +103,29 @@ public class Picture extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
+                    // fonts choose
                     case 0:
                         Intent lettersIntent = new Intent(getApplicationContext(), LettersActivity.class);
                         startActivityForResult(lettersIntent, 300);
+                        break;
+
+                    // upload
+                    case 1:
+                        NetworkStatus net = new NetworkStatus(getApplicationContext());
+                        boolean isNetConnected = net.isConnected();
+                        if(!isNetConnected) {
+                            AlertDialog alertDialog = new AlertDialog.Builder(Picture.this).create();
+                            alertDialog.setTitle("Network Problem");
+                            alertDialog.setMessage("No Internet!");
+                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            alertDialog.show();
+                            break;
+                        }
                         break;
                 }
             }
