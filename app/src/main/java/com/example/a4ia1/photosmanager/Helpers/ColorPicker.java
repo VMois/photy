@@ -1,10 +1,8 @@
 package com.example.a4ia1.photosmanager.Helpers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -78,15 +76,14 @@ public class ColorPicker extends RelativeLayout implements View.OnClickListener 
         popupImage.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                Log.d("motionEvent", "" + motionEvent.getAction());
                 switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
+                    case MotionEvent.ACTION_MOVE:
                         Bitmap bmp = popupImage.getDrawingCache();
                         int color = bmp.getPixel((int)motionEvent.getX(), (int)motionEvent.getY());
                         listener.onColorPick(color);
                         break;
                 }
-                return false;
+                return true;
             }
         });
 

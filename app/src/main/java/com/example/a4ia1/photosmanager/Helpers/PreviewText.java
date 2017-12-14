@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -20,34 +19,33 @@ public class PreviewText extends View implements View.OnClickListener, View.OnTo
     private float x;
     private float y;
     private int baseColor;
+    private int strokeColor;
     private float textWidth;
     private float textHeight;
     private int drawCommand;
-    private Paint.FontMetrics fontMetrics;
 
-    public PreviewText(Context context, String text, int baseColor, Typeface tf, float X, float Y) {
+    public PreviewText(Context context, String text, int baseColor, int strokeColor, Typeface tf, float X, float Y) {
         super(context);
         this.x = X;
         this.y = Y;
         this.text = text;
         this.drawCommand = -1;
         this.baseColor = baseColor;
+        this.strokeColor = strokeColor;
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setAntiAlias(true);
         paint.setTextSize(100);
         paint.setTypeface(tf);
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.RED);
+        paint.setColor(baseColor);
+
         Rect rect = new Rect();
         if (!this.text.isEmpty()) {
             paint.getTextBounds(this.text, 0, this.text.length(), rect);
         }
-        fontMetrics = paint.getFontMetrics();
-        Log.d("Font top", "" + fontMetrics.top);
-        Log.d("Font bottom", "" + fontMetrics.bottom);
         this.textWidth = rect.width();
-        this.textHeight = rect.height();
+        this.textHeight = rect.height() + 50;
         setOnTouchListener(this);
         setOnClickListener(this);
     }
@@ -55,7 +53,13 @@ public class PreviewText extends View implements View.OnClickListener, View.OnTo
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawText(text, 0, this.getTextHeight(), paint);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(baseColor);
+        canvas.drawText(text, 0, this.getTextHeight() - 50, paint);
+        paint.setColor(strokeColor);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(5);
+        canvas.drawText(text, 0, this.getTextHeight() - 50, paint);
 
         switch (this.drawCommand) {
             // set focus draw rectangle

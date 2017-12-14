@@ -114,15 +114,20 @@ public class Picture extends AppCompatActivity {
         // letters - 300
         switch (requestCode) {
             case 300:
+                if (data == null) return;
                 Bundle extras = data.getExtras();
                 String fontName = (String) extras.get("fontName");
                 String text = (String) extras.get("text");
+                int textColorBase = (int) extras.get("colorBase");
+                int textColorStroke = (int) extras.get("colorStroke");
                 Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/" + fontName);
                 float startY = mainImage.getHeight() / 8;
                 float startX = mainImage.getX() + 250;
                 PreviewText previewText = new PreviewText(
                         getApplicationContext(),
                         text,
+                        textColorBase,
+                        textColorStroke,
                         tf,
                         startX,
                         startY);

@@ -30,6 +30,7 @@ public class LettersActivity extends AppCompatActivity {
     private Button returnDataButton;
     private String mainText;
     private int mainTextColor;
+    private int mainTextColorStroke;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class LettersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_letters);
         getSupportActionBar().hide();
         mainTextColor = 0xff000000;
+        mainTextColorStroke = mainTextColor;
+        mainText = Constants.FONTS_DEFAULT_PREVIEW_TEXT;
         previewFontEditText = (EditText) findViewById(R.id.preview_font_et);
         returnDataButton = (Button) findViewById(R.id.return_data_button);
         LinearLayout fontsLayout = (LinearLayout) findViewById(R.id.fonts_layout);
@@ -64,11 +67,12 @@ public class LettersActivity extends AppCompatActivity {
                     currentTypeFace = clickedTextView.getTypeface();
                     currentFontName = (String) clickedTextView.getTag();
                     mainText = previewFontEditText.getText().toString();
-                    renderPreviewText(mainText, mainTextColor);
+                    renderPreviewText(mainText, mainTextColor, mainTextColorStroke);
                 }
             });
             fontsLayout.addView(newTextView);
             currentTypeFace = tf;
+            currentFontName = font;
         }
 
         TextWatcher textWatcher = new TextWatcher(){
@@ -84,7 +88,7 @@ public class LettersActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-               renderPreviewText(editable.toString(), mainTextColor);
+               renderPreviewText(editable.toString(), mainTextColor, mainTextColorStroke);
             }
         };
         previewFontEditText.addTextChangedListener(textWatcher);
@@ -95,33 +99,46 @@ public class LettersActivity extends AppCompatActivity {
                         currentFontName);
             }
         });
-        ColorPicker colorPicker = new ColorPicker(this);
-        ColorPicker colorPicker1 = new ColorPicker(this);
+        ColorPicker colorPickerBase = new ColorPicker(this);
+        ColorPicker colorPickerStroke = new ColorPicker(this);
 
         LinearLayout bottomLayout = (LinearLayout) findViewById(R.id.bottom_layout);
         RelativeLayout.LayoutParams colorPickerParams = new RelativeLayout.LayoutParams(150, 150);
 
-        colorPicker.setLayoutParams(colorPickerParams);
-        colorPicker1.setLayoutParams(colorPickerParams);
+        colorPickerBase.setLayoutParams(colorPickerParams);
+        colorPickerStroke.setLayoutParams(colorPickerParams);
 
         // setting custom listener
-        colorPicker.setCustomObjectListener(new ColorPicker.ColorPickerCustomListenerObject() {
+        colorPickerBase.setCustomObjectListener(new ColorPicker.ColorPickerCustomListenerObject() {
             @Override
             public void onColorPick(int pickedColor) {
                 mainTextColor = pickedColor;
-                renderPreviewText(mainText, mainTextColor);
+                renderPreviewText(mainText, mainTextColor, mainTextColorStroke);
             }
         });
-        // TODO: Add second picker
-        bottomLayout.addView(colorPicker);
+
+        colorPickerStroke.setCustomObjectListener(new ColorPicker.ColorPickerCustomListenerObject() {
+            @Override
+            public void onColorPick(int pickedColor) {
+                mainTextColorStroke = pickedColor;
+                renderPreviewText(mainText, mainTextColor, mainTextColorStroke);
+            }
+        });
+
+        bottomLayout.addView(colorPickerBase);
+        bottomLayout.addView(colorPickerStroke);
+
+        previewFontEditText.setText(mainText);
+        renderPreviewText(mainText, mainTextColor, mainTextColorStroke);
     }
 
-    private void renderPreviewText(String newText, int baseColor) {
+    private void renderPreviewText(String newText, int baseColor, int strokeColor) {
         previewLayout.removeAllViews();
         previewText = new PreviewText(
                 getApplicationContext(),
                 newText,
                 baseColor,
+                strokeColor,
                 currentTypeFace,
                 previewLayout.getX(),
                 previewLayout.getY() + (previewLayout.getHeight() / 2));
@@ -131,6 +148,8 @@ public class LettersActivity extends AppCompatActivity {
     private void returnData(String text, String fontName) {
         Intent intent = new Intent();
         intent.putExtra("fontName", fontName);
+        intent.putExtra("colorBase", mainTextColor);
+        intent.putExtra("colorStroke", mainTextColorStroke);
         intent.putExtra("text", text);
         setResult(300, intent);
         finish();
