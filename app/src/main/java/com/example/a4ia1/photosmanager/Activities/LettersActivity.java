@@ -28,12 +28,15 @@ public class LettersActivity extends AppCompatActivity {
     private String currentFontName;
     private EditText previewFontEditText;
     private Button returnDataButton;
+    private String mainText;
+    private int mainTextColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_letters);
         getSupportActionBar().hide();
+        mainTextColor = 0xff000000;
         previewFontEditText = (EditText) findViewById(R.id.preview_font_et);
         returnDataButton = (Button) findViewById(R.id.return_data_button);
         LinearLayout fontsLayout = (LinearLayout) findViewById(R.id.fonts_layout);
@@ -60,7 +63,8 @@ public class LettersActivity extends AppCompatActivity {
                     TextView clickedTextView = (TextView) view;
                     currentTypeFace = clickedTextView.getTypeface();
                     currentFontName = (String) clickedTextView.getTag();
-                    renderPreviewText(previewFontEditText.getText().toString());
+                    mainText = previewFontEditText.getText().toString();
+                    renderPreviewText(mainText, mainTextColor);
                 }
             });
             fontsLayout.addView(newTextView);
@@ -80,7 +84,7 @@ public class LettersActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-               renderPreviewText(editable.toString());
+               renderPreviewText(editable.toString(), mainTextColor);
             }
         };
         previewFontEditText.addTextChangedListener(textWatcher);
@@ -104,7 +108,8 @@ public class LettersActivity extends AppCompatActivity {
         colorPicker.setCustomObjectListener(new ColorPicker.ColorPickerCustomListenerObject() {
             @Override
             public void onColorPick(int pickedColor) {
-                renderPreviewText();
+                mainTextColor = pickedColor;
+                renderPreviewText(mainText, mainTextColor);
             }
         });
         // TODO: Add second picker

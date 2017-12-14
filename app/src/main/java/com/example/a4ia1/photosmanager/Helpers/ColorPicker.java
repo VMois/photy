@@ -73,10 +73,12 @@ public class ColorPicker extends RelativeLayout implements View.OnClickListener 
         View popupLayout = mInflater.inflate(R.layout.color_picker_popup,
                 (ViewGroup) findViewById(R.id.popup_element));
         popupImage = popupLayout.findViewById(R.id.color_picker_popup_image);
+        ImageView exitImageView = popupLayout.findViewById(R.id.popup_exit);
         popupImage.setDrawingCacheEnabled(true);
         popupImage.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                Log.d("motionEvent", "" + motionEvent.getAction());
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         Bitmap bmp = popupImage.getDrawingCache();
@@ -89,7 +91,13 @@ public class ColorPicker extends RelativeLayout implements View.OnClickListener 
         });
 
         // create popup and show
-        PopupWindow pw = new PopupWindow(popupLayout, rootView.getWidth(), rootView.getHeight(), true);
+        final PopupWindow pw = new PopupWindow(popupLayout, rootView.getWidth(), rootView.getHeight(), true);
         pw.showAtLocation(view, Gravity.CENTER, 0, 0);
+        exitImageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pw.dismiss();
+            }
+        });
     }
 }

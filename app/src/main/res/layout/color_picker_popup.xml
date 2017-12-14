@@ -7,6 +7,14 @@
     android:background="#CC000000"
     android:id="@+id/popup_element">
     <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/ic_exit"
+        android:id="@+id/popup_exit"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"/>
+
+    <ImageView
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:src="@drawable/color_picker"
