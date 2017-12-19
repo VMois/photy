@@ -37,7 +37,7 @@ public class ImageTools {
         bitmapToSave = rotate(bitmapToSave, -90);
 
         try {
-            FileOutputStream fs = new FileOutputStream(path);
+            FileOutputStream fs = new FileOutputStream(path + ".jpeg");
             bitmapToSave.compress(Bitmap.CompressFormat.JPEG, 100, fs);
             fs.close();
         } catch (IOException err) {

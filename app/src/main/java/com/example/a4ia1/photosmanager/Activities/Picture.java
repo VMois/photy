@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -90,7 +91,8 @@ public class Picture extends AppCompatActivity {
         ArrayList<DrawerMenuItem> PICTURE_MENU_ITEMS = new ArrayList<>(
                 Arrays.asList(
                         new DrawerMenuItem(R.mipmap.ic_fonts, "Fonts"),
-                        new DrawerMenuItem(R.mipmap.ic_upload, "Upload")
+                        new DrawerMenuItem(R.mipmap.ic_upload, "Upload"),
+                        new DrawerMenuItem(R.mipmap.ic_share, "Share")
                 )
         );
         PictureArrayAdapter menuAdapter = new PictureArrayAdapter(
@@ -126,6 +128,15 @@ public class Picture extends AppCompatActivity {
                             alertDialog.show();
                             break;
                         }
+                        break;
+                    // share
+                    case 2:
+                        Uri uri = Uri.parse("file://" + currentFile.getAbsolutePath());
+                        Intent share = new Intent(Intent.ACTION_SEND);
+                        share.putExtra(Intent.EXTRA_STREAM, uri);
+                        share.setType("image/jpeg");
+                        share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(share, "Share image File"));
                         break;
                 }
             }
