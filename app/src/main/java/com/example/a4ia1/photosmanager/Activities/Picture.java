@@ -22,9 +22,11 @@ import android.widget.Toast;
 import com.example.a4ia1.photosmanager.Adapters.PictureArrayAdapter;
 import com.example.a4ia1.photosmanager.Helpers.DrawerMenuItem;
 import com.example.a4ia1.photosmanager.Helpers.PreviewText;
+import com.example.a4ia1.photosmanager.Network.HttpUpload;
 import com.example.a4ia1.photosmanager.Network.NetworkStatus;
 import com.example.a4ia1.photosmanager.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -127,6 +129,11 @@ public class Picture extends AppCompatActivity {
                                     });
                             alertDialog.show();
                             break;
+                        } else {
+                            //ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            //originalBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            //byte[] data = stream.toByteArray();
+                            new HttpUpload(Picture.this).execute(currentFile);
                         }
                         break;
                     // share
