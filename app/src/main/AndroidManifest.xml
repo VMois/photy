@@ -36,7 +36,8 @@
         <activity
             android:name=".Activities.CollageActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activities.LettersActivity"></activity>
+        <activity android:name=".Activities.LettersActivity" />
+        <activity android:name=".Activities.NetworkActivity"></activity>
     </application>
 
 </manifest>

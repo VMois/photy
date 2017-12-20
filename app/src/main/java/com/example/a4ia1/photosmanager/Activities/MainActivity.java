@@ -112,6 +112,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        networkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, NetworkActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         GetJson getMinImagesJson = new GetJson();
         getMinImagesJson.setCustomObjectListener(new GetJson.GetJSONCustomListenerObject() {
