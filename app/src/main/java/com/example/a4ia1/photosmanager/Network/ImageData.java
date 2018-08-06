@@ -7,10 +7,12 @@ package com.example.a4ia1.photosmanager.Network;
 public class ImageData {
     private String imageName;
     private String imageSaveTime;
+    private int imageSize;
 
-    public ImageData(String imageName, String imageSaveTime) {
+    public ImageData(String imageName, String imageSaveTime, int size) {
         this.imageName = imageName;
         this.imageSaveTime = imageSaveTime;
+        this.imageSize = size;
     }
     public String getImageName() {
         return imageName;
@@ -18,5 +20,9 @@ public class ImageData {
 
     public String getImageSaveTime() {
         return imageSaveTime;
+    }
+
+    public int getImageSize() {
+        return imageSize;
     }
 }

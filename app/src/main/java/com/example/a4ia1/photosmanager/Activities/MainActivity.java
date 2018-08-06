@@ -1,5 +1,6 @@
 package com.example.a4ia1.photosmanager.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.LinearLayout;
 
 import com.example.a4ia1.photosmanager.Network.GetJson;
 import com.example.a4ia1.photosmanager.Network.ImageData;
+import com.example.a4ia1.photosmanager.Network.NetworkStatus;
 import com.example.a4ia1.photosmanager.R;
 
 import java.io.File;
@@ -115,31 +118,63 @@ public class MainActivity extends AppCompatActivity {
         networkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NetworkActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-        GetJson getMinImagesJson = new GetJson();
-        getMinImagesJson.setCustomObjectListener(new GetJson.GetJSONCustomListenerObject() {
-            @Override
-            public void onGetReady(List<ImageData> response) {
-                if (response != null) {
-                    smallImagesCount = response.size();
-                    startSmallImageCount = 0;
-                    for(ImageData data: response) {
-                        new LoadImageTask().execute(LoadImageTask.URL_MIN + data.getImageName());
-                    }
-
+                NetworkStatus net = new NetworkStatus(getApplicationContext());
+                boolean isNetConnected = net.isConnected();
+                if(!isNetConnected) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                    alertDialog.setTitle("Network Problem");
+                    alertDialog.setMessage("No Internet!");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                } else {
+                    Intent intent = new Intent(MainActivity.this, NetworkActivity.class);
+                    startActivity(intent);
                 }
             }
         });
-        getMinImagesJson.execute(GetJson.URL_MIN);
+
+        NetworkStatus net = new NetworkStatus(getApplicationContext());
+        boolean isNetConnected = net.isConnected();
+        if(!isNetConnected) {
+            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            alertDialog.setTitle("Network Problem");
+            alertDialog.setMessage("No Internet!");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        } else {
+            GetJson getMinImagesJson = new GetJson();
+            getMinImagesJson.setCustomObjectListener(new GetJson.GetJSONCustomListenerObject() {
+                @Override
+                public void onGetReady(List<ImageData> response) {
+                    if (response != null) {
+                        smallImagesCount = response.size();
+                        startSmallImageCount = 0;
+                        for (ImageData data : response) {
+                            new LoadImageTask().execute(LoadImageTask.URL_MIN + data.getImageName());
+                        }
+
+                    }
+                }
+            });
+            getMinImagesJson.execute(GetJson.URL_MIN);
+        }
         currentImage = 0;
         leftArrowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (images.size() == 0) {
+                    return;
+                }
                 if (currentImage == 0) {
                     currentImage = images.size();
                 }
@@ -150,6 +185,9 @@ public class MainActivity extends AppCompatActivity {
         rightArrowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (images.size() == 0) {
+                    return;
+                }
                 if (currentImage == images.size() - 1) {
                     currentImage = -1;
                 }
@@ -161,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
     public class LoadImageTask extends AsyncTask<String, Void, Void> {
         public static final String URL_MIN =
-                "http://192.168.1.104:3000/min/";
+                "http://vmois.eu-4.evennode.com/min/";
 
         private Drawable loadedImage;
 

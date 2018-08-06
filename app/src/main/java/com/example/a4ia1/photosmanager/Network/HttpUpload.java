@@ -25,7 +25,7 @@ public class HttpUpload extends AsyncTask<File, Integer, Void> {
 
     private ProgressDialog pd;
 
-    private static final String url = "http://192.168.1.104:3000/upload";
+    private static final String url = "http://vmois.eu-4.evennode.com/upload";
 
     public HttpUpload(Context context) {
         super();

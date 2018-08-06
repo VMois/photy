@@ -23,10 +23,10 @@ import java.util.List;
 
 public class GetJson extends AsyncTask<String, Void, Void> {
     public static final String URL_FULL =
-            "http://192.168.1.104:3000/images";
+            "http://vmois.eu-4.evennode.com/images/";
 
     public static final String URL_MIN =
-            "http://192.168.1.104:3000/images/100x100";
+            "http://vmois.eu-4.evennode.com/images/100x100/";
 
     private GetJSONCustomListenerObject listener;
 
@@ -62,8 +62,9 @@ public class GetJson extends AsyncTask<String, Void, Void> {
                 JSONObject object = allImagesJson.getJSONObject(i);
                 String imageName = object.getString("name");
                 String imageSaveTime = object.getString("birthtime");
+                int imageSize = object.getInt("size");
 
-                imagesData.add(new ImageData(imageName, imageSaveTime));
+                imagesData.add(new ImageData(imageName, imageSaveTime, imageSize));
             }
         } catch (JSONException e) {
             e.printStackTrace();

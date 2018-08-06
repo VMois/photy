@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -41,7 +42,7 @@ public class NetworkActivity extends AppCompatActivity {
                     smallImagesCount = response.size();
                     startSmallImageCount = 0;
                     for(ImageData data: response) {
-                        new LoadImageTask().execute(data.getImageName(), data.getImageSaveTime());
+                        new LoadImageTask().execute(data.getImageName(), data.getImageSaveTime(), "" + data.getImageSize());
                     }
 
                 }
@@ -52,13 +53,14 @@ public class NetworkActivity extends AppCompatActivity {
 
     public class LoadImageTask extends AsyncTask<String, Void, Void> {
         public static final String URL_MIN =
-                "http://192.168.1.104:3000/min/";
+                "http://vmois.eu-4.evennode.com/min/";
         public static final String URL_FULL =
-                "http://192.168.1.104:3000/images/";
+                "http://vmois.eu-4.evennode.com/images/";
 
         private Drawable loadedImage;
         private String saveTime;
         private String name;
+        private double size;
 
         public Drawable LoadImageFromWeb(String url) {
             try {
@@ -77,11 +79,14 @@ public class NetworkActivity extends AppCompatActivity {
             loadedImage = LoadImageFromWeb(LoadImageTask.URL_MIN + urls[0]);
             saveTime = urls[1];
             name = urls[0];
+            // in MB
+            size = Integer.parseInt(urls[2]) / 10000.0;
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            Log.d("TEST", "ON POAST LOAD");
             startSmallImageCount++;
             View temp = LayoutInflater.from(getApplicationContext()).inflate(R.layout.network_image, null);
             ImageView iv = temp.findViewById(R.id.network_image);
@@ -95,7 +100,7 @@ public class NetworkActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-            tv.setText(saveTime);
+            tv.setText(saveTime + ", " + size + " MB");
             linearLayout.addView(temp);
         }
     }
